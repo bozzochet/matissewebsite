@@ -1,0 +1,2 @@
+wget https://davidpelosi21.github.io/root/me2.png
+cp me2.png  /static/img/me.png

@@ -1,0 +1,118 @@
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="https://10.2.201.68/static/img/favicon.ico" />
+    <title>Solar Data Tool</title>
+    <meta name="author" content=" David Pelosi " />
+    <meta name="description" content="Solar Data Tool" />
+    <meta name="keywords" content="solar data" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="https://davidpelosi21.github.io/feed.xml">
+
+  <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="https://davidpelosi21.github.io/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://davidpelosi21.github.io/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://davidpelosi21.github.io/static/css/super-search.css">
+    <link rel="stylesheet" href="https://davidpelosi21.github.io/static/css/thickbox.css">
+    <link rel="stylesheet" href="https://davidpelosi21.github.io/static/css/projects.css">
+    <link rel="stylesheet" href="https://davidpelosi21.github.io/static/css/main.css">
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', '{{ site.google_analytics }}', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<!-- -->
+<script src="/jsroot/scripts/JSRootCore.min.js" type="text/javascript"></script>
+
+<script type='text/javascript'>
+var filename = "https://10.2.201.68/Tilt/Tilt.root";
+   JSROOT.OpenFile(filename, function(file) {
+file.ReadObject("TOTAL Graph;1", function(obj) {
+       JSROOT.draw("drawing", obj);
+     });
+   });
+
+</script>
+
+
+
+</head>
+
+
+<!-- ***********************-->
+<!-- ***********************-->
+<!-- ***********************-->
+<!-- ***********************-->
+<!-- ***********************-->
+
+<body>
+  <div class="container">
+    <div class="col-sm-3">
+      <div class="fixed-condition text-center">
+        <a href="https://davidpelosi21.github.io/"><img class="profile-avatar" src="https://davidpelosi21.github.io/root/me2.png" height="75px" width="75px" /></a>
+        <h4 class="author-name" style="color:rgb(60, 128, 214);"><b>Solar Data Tool</b></h4>
+
+        <hr />
+        <ul class="sidebar-nav text-left">
+          <strong>Menu</strong>
+          <li><a href="https://10.2.201.68/index.html">Home</a></li>
+          <li><a class="about" href="https://10.2.201.68/SSN.html">Solar Spot Number</a></li>
+          <li><a class="about" href="https://10.2.201.68/SFS.html">Solar Field Strenght</a></li>
+          <li><a class="about" href="https://10.2.201.68/Tilt.html">Tilt Angle</a></li>
+          <li><a class="about" href="https://10.2.201.68/SSN">SSN Smoothed & Monthly</a></li>
+          <li><a class="about" href="https://10.2.201.68/Neutron.html">Neutron Monitor</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-8 col-offset-1 main-layout">
+
+<!-- INSERIRE QUI IL CODICE-->
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<center><h3 style="color:rgb(60, 128, 214);"><b>Tilt Angle Data</b></h3></center>
+Tilt Angle data from ....
+
+
+
+<br><br>
+<center>
+<div id="drawing" style="width:550px; height:300px"></div>
+<button><type="button"> <a href="https://10.2.201.68/Tilt/Tilt.root"> ROOT File</button>
+<button><type="button"> <a href="https://10.2.201.68/TREE/TiltTree.root"> ROOT Tree</button>
+
+</center>
+
+
+
+
+<!-- fine codice e inizio del Footer-->
+      <footer>
+        <!--  &copy; {{ site.author }} -->
+         <a href="mailto:david.53211@gmail.com">David Pelosi</a> - Build by JSROOT.
+      </footer>
+    </div>
+  </div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+
+<html>
+<!-- -->
+<head>
+<script src="/jsroot/scripts/JSRootCore.min.js" type="text/javascript"></script>
+ 
+   <script type='text/javascript'>
+var filename = "10.2.201.68/Solar/SSN.root";
+   JSROOT.OpenFile(filename, function(file) {
+file.ReadObject("Graph;1", function(obj) {
+       JSROOT.draw("drawing", obj);
+     });
+   });
+</script>
+
+</head>
+
+
+<!-- ***********************-->
+<!-- ***********************-->
+<!-- ***********************-->
+<!-- ***********************-->
+<!-- ***********************-->
+
+<body>
+
+<!-- INSERIRE QUI IL CODICE-->
+
+
+<center><h3 style="color:rgb(60, 128, 214);"><b>Neutron Monitor Data</b></h3></center>
+Neutron Monitor 
+<center>
+<div id="drawing" style="width:550px; height:300px"></div>
+<button><type="button"> <a href="https://10.2.201.68/Neutron/Neutron.root"> ROOT File</button>
+<button><type="button"> <a href="https://10.2.201.68/TREE/NeutronTree.root"> ROOT Tree</button>
+
+</center>
+
+</body>
+
+
+</html>
