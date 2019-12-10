@@ -1,0 +1,7 @@
+# ignore all emacs stubs
+*~
+\#*
+
+# dependancies
+node_modules
+package-lock.json
