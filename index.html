@@ -1,55 +1,29 @@
 <!DOCTYPE html> <html>
-   <head>
-      <meta charset="UTF-8">
-         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <title>Solar Data Web Tool</title>
+
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+
 
 	     <title>Solar Data Web Tool</title>
 
-	         <script src="/jsroot/scripts/JSRootCore.js?2d&onload=createGUI"> type="text/javascript"></script>
 
-		     <script type="text/javascript">
-		                var filename = "https://davidpelosi21.github.io/root/SSN.root";
-				      JSROOT.OpenFile(filename, function(file) {
-				        file.ReadObject("Graph;1", function(obj) {
-				          JSROOT.draw("drawing", obj, "APL");
-				        });
-				      });
-
-				   var filename = "https://davidpelosi21.github.io/root/Neutron.root";
-				      JSROOT.OpenFile(filename, function(file) {
-				file.ReadObject("TOTAL Graph;1", function(obj) {
-				          JSROOT.draw("drawing2", obj);
-				        });
-				      });
-
-				   var filename = "https://davidpelosi21.github.io/root/SolarField.root";
-				      JSROOT.OpenFile(filename, function(file) {
-				file.ReadObject("TOTAL Graph;1", function(obj) {
-				          JSROOT.draw("drawing3", obj);
-				        });
-				      });
-
-				   var filename = "https://davidpelosi21.github.io/root/TILT.root";
-				      JSROOT.OpenFile(filename, function(file) {
-				file.ReadObject("TOTAL Graph;1", function(obj) {
-				          JSROOT.draw("drawing4", obj);
-				        });
-				      });
-
-				   var filename = "https://davidpelosi21.github.io/root/SSNSmoothed.root";
-				      JSROOT.OpenFile(filename, function(file) {
-				file.ReadObject("Smoothed-Monthly;1", function(obj) {
-				          JSROOT.draw("drawing5", obj);
-				        });
-				      });
-
-				   var filename = "https://davidpelosi21.github.io/root/SSNSmoothed.root";
-				      JSROOT.OpenFile(filename, function(file) {
-				file.ReadObject("Smoothed-Monthly NOT LOG;1", function(obj) {
-				          JSROOT.draw("drawing6", obj);
-				        });
-				      });
-				  </script>
 
 
 		         <script src="node_modules/jquery/dist/jquery.min.js"> </script>
@@ -57,30 +31,45 @@
 
 			         <script src="node_modules/jquery/dist/jquery.min.js"> </script>
 				     <script>
-
 				             $.getJSON('http://api.open-notify.org/astros.json?callback=?', function(data) {
 					             var number = data['number'];
 					             $('#spacepeeps').html(number);
-
 					             data['people'].forEach(function (d) {
 					               $('#astronames').append('<li>' + d['name'] + '</li>');
 					             });
 					           });
-
 					         </script>
 
 				       </head>
 
-    <body><center>
+    <body>
+      <div class="container">
+        <div class="col-sm-3">
+          <div class="fixed-condition text-center">
+            <a href="10.2.201.68"><img class="profile-avatar" src="/static/img/me.png" height="75px" width="75px" /></a>
+            <h4 class="author-name" style="color:rgb(60, 128, 214);"><b>Solar Data Tool</b></h4>
 
-	      <h1>Solar Data Web Tool</h1>
-	          <div id="drawing" style="width:700px; height:400px"></div>
-		        <div id="drawing2" style="width:700px; height:400px"></div>
-			      <div id="drawing3" style="width:700px; height:400px"></div>
-			            <div id="drawing4" style="width:700px; height:400px"></div>
-				          <div id="drawing5" style="width:700px; height:400px"></div>
-					  <div id="drawing6" style="width:700px; height:400px"></div>
-					        <h6>David Pelosi</h6>
+            <hr />
+            <ul class="sidebar-nav text-left">
+              <strong>Menu</strong>
+              <li><a href="/index.html">Home</a></li>
+              <li><a class="about" href="/SSN.html">Solar Spot Number</a></li>
+              <li><a class="about" href="/SFS.html">Solar Field Strenght</a></li>
+              <li><a class="about" href="/Tilt.html">Tilt Angle</a></li>
+              <li><a class="about" href="/SolarSmoothed.html">SSN Smoothed & Monthly</a></li>
+              <li><a class="about" href="/Neutron.html">Neutron Monitor</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-8 col-offset-1 main-layout">
+
+
+
+
+<!-- ISS STATION -->
+      <center>
+
+<h2>Solar Data Web Tool Application</h2> .(da completare)......<br>
 
 						      <h2 id="iss-pass-times">ISS Pass Times</h2>
 						            <p>Five upcoming ISS passes for Perugia:</p>
@@ -91,7 +80,7 @@
 									            <link rel="stylesheet" href="node_modules/leaflet//dist/leaflet.css" />
 										          <!--<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>-->
 											        <script src="node_modules/leaflet/dist/leaflet.js"></script>
-												      <div id="map" style="width: 800px; height: 400px"> </div>
+												      <div id="map" style="width: 650px; height: 400px"> </div>
 												            <!--<script src="http://code.jquery.com/jquery-2.0.3.min.js"> </script>-->
 													          <script src="node_modules/jquery/dist/jquery.min.js"> </script>
 														        <script src="map/iss-now.js"> </script>
@@ -102,12 +91,10 @@
 																	        <ul id="astronames"> </ul>
 																		      <!-- script can be put here or in the head
 																			      <script src="node_modules/jquery/dist/jquery.min.js"> </script>
-
 																			         <script>
 																				        $.getJSON('http://api.open-notify.org/astros.json?callback=?', function(data) {
 																					     var number = data['number'];
 																					     $('#spacepeeps').html(number);
-
 																					     data['people'].forEach(function (d) {
 																					             $('#astronames').append('<li>' + d['name'] + '</li>');
 																					     });
