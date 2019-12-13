@@ -57,7 +57,7 @@ os.mkdir("Download")
 #shutil.copy('/Users/David/Desktop/programming/python/modules/Solar/SSN_History.txt', time.strftime("/Users/David/Desktop/programming/python/modules/Solar/Download/SSN(1-1-1818 ; %m-%d-%Y).txt"))
 import re
 infile = open ('SSN_History.txt', 'r')
-outfile = open (time.strftime('Download/SSN(1-1-1818 ; %m-%d-%Y).txt'), 'w')
+outfile = open (time.strftime('Download/SSN1-1-1818_%m-%d-%Y.txt'), 'w')
 outfile2 = open (time.strftime('Download/SSNLINE.txt'), 'w')
 column1 = 3
 column2 = 4
@@ -78,4 +78,4 @@ for line in infile:
 infile.close()
 outfile.close()
 
-shutil.copy(time.strftime('Download/SSN(1-1-1818 ; %m-%d-%Y).txt'), "Download/SSNPLOT.txt")
+shutil.copy(time.strftime('Download/SSN1-1-1818_%m-%d-%Y.txt'), "Download/SSNPLOT.txt")
