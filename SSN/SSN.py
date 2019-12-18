@@ -26,25 +26,29 @@ open('SSN_Monthly.txt', 'wb').write(r.content)
 lines1 = tuple(open("backup/SSN_MonthlyP.txt","r"))
 lines2 = tuple(open("SSN_Monthly.txt","r"))
 
-
+if len(lines2) == 1:
+    f = open('SSN_History.txt', 'a')
+    f.write(lines2[0])
+if len(lines2) != 1:
 #appendo la differenza allo storico
 #evito conteggio di linee vuote
-n1 = len(lines1)
-n2 = len(lines2)
+ n1 = len(lines1)
+ n2 = len(lines2)
 
-if n1 != 0:
- for i in range(n1):
+ if n1 != 0:
+  for i in range(n1):
     if lines1[i] == "\n":
         n1 -= 1
-if n2 != 0:
- for i in range(n2):
+ if n2 != 0:
+  for i in range(n2):
     if lines2[i] == "\n":
         n2 -= 1
-
 #per evitare spazi indesiderati iniziali
-for a in range(n1,n2):
+
+ for a in range(n1,n2):
      with open("SSN_History.txt", "a") as file:
          file.write(lines2[a])
+#fine if
 
 #a questo punto lo storico contiene tutte le info da 1818 - al giorno corrente
 
@@ -52,13 +56,13 @@ for a in range(n1,n2):
 open('backup/SSN_MonthlyP.txt', 'wb').write(r.content)
 
 #cancellare vecchio salvataggio in Download e aggiornare file con data
-shutil.rmtree("Download")
-os.mkdir("Download")
+#shutil.rmtree("/Users/David/Desktop/programming/python/modules/Solar/Download")
+#os.mkdir("/Users/David/Desktop/programming/python/modules/Solar/Download")
 #shutil.copy('/Users/David/Desktop/programming/python/modules/Solar/SSN_History.txt', time.strftime("/Users/David/Desktop/programming/python/modules/Solar/Download/SSN(1-1-1818 ; %m-%d-%Y).txt"))
 import re
 infile = open ('SSN_History.txt', 'r')
-outfile = open (time.strftime('Download/SSN1-1-1818_%m-%d-%Y.txt'), 'w')
-outfile2 = open (time.strftime('Download/SSNLINE.txt'), 'w')
+outfile = open ('SSNPLOT.txt', 'w')
+outfile2 = open ('SSNLINE.txt', 'w')
 column1 = 3
 column2 = 4
 column3 = 5
@@ -77,5 +81,3 @@ for line in infile:
 
 infile.close()
 outfile.close()
-
-shutil.copy(time.strftime('Download/SSN1-1-1818_%m-%d-%Y.txt'), "Download/SSNPLOT.txt")

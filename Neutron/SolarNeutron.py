@@ -19,28 +19,48 @@ print(year+month+day)
 OULU = OULU.replace("end_year=2019","end_year="+year)
 OULU= OULU.replace("end_month=12","end_month="+month)
 OULU= OULU.replace("end_day=4","end_day="+day)
-print(OULU)
 url = simple_get(OULU)
 print(OULU)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('Oulu.txt'), "w")
+f = open(time.strftime('Update/OuluP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('Oulu.txt', "r"))
-with open('Oulu.txt', "w+") as file:
+lines1 = tuple(open('Update/OuluP.txt', "r"))
+with open('Update/OuluP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
+#su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines1 = tuple(open('Oulu.txt', "r"))
-fileOulu = open(time.strftime('Oulu.txt'), "w+")
-#inizio dei cici for per importare i corretti valori per i grafici
-for j in range(len(lines1)):
+lines2 = tuple(open("Oulu.txt","r"))
+#lines 2 più corta
+lines1 = tuple(open('Update/OuluP.txt', "r"))
+
+#appendo la differenza allo storico
+#evito conteggio di linee vuote
+n1 = len(lines1)
+n2 = len(lines2)
+
+if n1 != 0:
+ for i in range(n1):
+    if lines1[i] == "\n":
+        n1 -= 1
+if n2 != 0:
+ for i in range(n2):
+    if lines2[i] == "\n":
+        n2 -= 1
+
+print(n1)
+print(n2)
+#per evitare spazi indesiderati iniziali
+file = open(('Oulu.txt'), "a")
+for j in range(n2,n1):
    sline = lines1[j].split()
+   #print(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
    if len(sline) == 2:
     year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
     month = int(lines1[j][5]+lines1[j][6])
@@ -48,18 +68,19 @@ for j in range(len(lines1)):
     value = sline[1][9]
     for i in range(10,len(sline[1])):
        value += sline[1][i]
-    print(str(g2j(year,month,day)) + "    " + str(len(sline)) )
+    #print(str(g2j(year,month,day)))
     a = str(g2j(year,month,day))
-    fileOulu.write(a + "  " + value + "\n")
+    file.write(a + "  " + value + "\n")
    if len(sline) != 2:
-    year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
-    month = int(lines1[j][5]+lines1[j][6])
-    day   = int(lines1[j][8]+lines1[j][9])
-    print(str(g2j(year,month,day)) + "    " + str(len(sline)) )
-    a = str(g2j(year,month,day))
-    fileOulu.write(a + "  " + sline[2] + "\n")
+      year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
+      month = int(lines1[j][5]+lines1[j][6])
+      day   = int(lines1[j][8]+lines1[j][9])
+      #print(str(g2j(year,month,day)))
+      a = str(g2j(year,month,day))
+      file.write(a + "  " + sline[2] + "\n")
+
 #chiudo e salvo file
-fileOulu.close();
+file.close();
 
 #-----------JUNG----
 JUNG = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=JUNG&tabchoice=1h&dtype=corr_for_pressure&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
@@ -74,43 +95,63 @@ url = simple_get(JUNG)
 print(JUNG)
 url = simple_get(JUNG)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('Jung.txt'), "w")
+f = open(time.strftime('Update/JungP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('Jung.txt', "r"))
-with open('Jung.txt', "w+") as file:
+lines1 = tuple(open('Update/JungP.txt', "r"))
+with open('Update/JungP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
+#su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines1 = tuple(open('Jung.txt', "r"))
-fileJUNG = open(time.strftime('Jung.txt'), "w+")
-#inizio dei cici for per importare i corretti valori per i grafici
-for j in range(len(lines1)):
-   sline = lines1[j].split()
-   if len(sline) == 2:
-    year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
-    month = int(lines1[j][5]+lines1[j][6])
-    day   = int(lines1[j][8]+lines1[j][9])
-    value = sline[1][9]
-    for i in range(10,len(sline[1])):
-       value += sline[1][i]
-    print(str(g2j(year,month,day)))
-    a = str(g2j(year,month,day))
-    fileJUNG.write(a + "  " + value + "\n")
-   if len(sline) != 2:
-      year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
-      month = int(lines1[j][5]+lines1[j][6])
-      day   = int(lines1[j][8]+lines1[j][9])
-      print(str(g2j(year,month,day)))
-      a = str(g2j(year,month,day))
-      fileJUNG.write(a + "  " + sline[2] + "\n")
+lines2 = tuple(open("Jung.txt","r"))
+#lines 2 più corta
+lines1 = tuple(open('Update/JungP.txt', "r"))
+
+#appendo la differenza allo storico
+#evito conteggio di linee vuote
+n1 = len(lines1)
+n2 = len(lines2)
+if n1 != 0:
+ for i in range(n1):
+    if lines1[i] == "\n":
+        n1 -= 1
+if n2 != 0:
+ for i in range(n2):
+    if lines2[i] == "\n":
+        n2 -= 1
+print(n1)
+print(n2)
+#per evitare spazi indesiderati iniziali
+for j in range(n2,n1):
+     with open("Jung.txt", "a") as file:
+         sline = lines1[j].split()
+         if len(sline) == 2:
+           year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
+           month = int(lines1[j][5]+lines1[j][6])
+           day   = int(lines1[j][8]+lines1[j][9])
+           value = sline[1][9]
+           for i in range(10,len(sline[1])):
+              value += sline[1][i]
+           print(str(g2j(year,month,day)) + "    " + str(len(sline)) )
+           a = str(g2j(year,month,day))
+           file.write(a + "  " + value + "\n")
+         if len(sline) != 2:
+           year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
+           month = int(lines1[j][5]+lines1[j][6])
+           day   = int(lines1[j][8]+lines1[j][9])
+           print(str(g2j(year,month,day)) + "    " + str(len(sline)) )
+           a = str(g2j(year,month,day))
+           file.write(a + "  " + sline[2] + "\n")
+
 #chiudo e salvo file
-fileJUNG.close();
+file.close();
+
 #--------------NEWK----------------------------------------------
 NEWK = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=NEWK&tabchoice=1h&dtype=corr_for_pressure&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
 year = str(now.year)
@@ -123,44 +164,63 @@ NEWK= NEWK.replace("end_day=4","end_day="+day)
 url = simple_get(NEWK)
 print(NEWK)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('Newk.txt'), "w")
+f = open(time.strftime('Update/NewkP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('Newk.txt', "r"))
-with open('Newk.txt', "w+") as file:
+lines1 = tuple(open('Update/NewkP.txt', "r"))
+with open('Update/NewkP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
+#su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines1 = tuple(open('Newk.txt', "r"))
-fileNewk = open(time.strftime('Newk.txt'), "w+")
-#inizio dei cici for per importare i corretti valori per i grafici
-for j in range(len(lines1)):
-   sline = lines1[j].split()
-   if len(sline) == 2:
-    year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
-    month = int(lines1[j][5]+lines1[j][6])
-    day   = int(lines1[j][8]+lines1[j][9])
-    value = sline[1][9]
-    for i in range(10,len(sline[1])):
-       value += sline[1][i]
-    print(str(g2j(year,month,day)))
-    a = str(g2j(year,month,day))
-    fileNewk.write(a + "  " + value + "\n")
-   if len(sline) != 2:
-      year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
-      month = int(lines1[j][5]+lines1[j][6])
-      day   = int(lines1[j][8]+lines1[j][9])
-      print(str(g2j(year,month,day)))
-      a = str(g2j(year,month,day))
-      fileNewk.write(a + "  " + sline[2] + "\n")
+lines2 = tuple(open("Newk.txt","r"))
+#lines 2 più corta
+lines1 = tuple(open('Update/NewkP.txt', "r"))
+
+
+#appendo la differenza allo storico
+#evito conteggio di linee vuote
+n1 = len(lines1)
+n2 = len(lines2)
+if n1 != 0:
+ for i in range(n1):
+    if lines1[i] == "\n":
+        n1 -= 1
+if n2 != 0:
+ for i in range(n2):
+    if lines2[i] == "\n":
+        n2 -= 1
+print(n1)
+print(n2)
+#per evitare spazi indesiderati iniziali
+for j in range(n2,n1):
+     with open("Newk.txt", "a") as file:
+         sline = lines1[j].split()
+         if len(sline) == 2:
+           year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
+           month = int(lines1[j][5]+lines1[j][6])
+           day   = int(lines1[j][8]+lines1[j][9])
+           value = sline[1][9]
+           for i in range(10,len(sline[1])):
+              value += sline[1][i]
+           print(str(g2j(year,month,day)) + "    " + str(len(sline)) )
+           a = str(g2j(year,month,day))
+           file.write(a + "  " + value + "\n")
+         if len(sline) != 2:
+           year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
+           month = int(lines1[j][5]+lines1[j][6])
+           day   = int(lines1[j][8]+lines1[j][9])
+           print(str(g2j(year,month,day)) + "    " + str(len(sline)) )
+           a = str(g2j(year,month,day))
+           file.write(a + "  " + sline[2] + "\n")
+
 #chiudo e salvo file
-fileNewk.close();
-
+file.close();
 #--------Kiel-----------------------------
 KIEL = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=KIEL&tabchoice=1h&dtype=corr_for_pressure&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
 year = str(now.year)
@@ -173,39 +233,60 @@ KIEL= KIEL.replace("end_day=4","end_day="+day)
 url = simple_get(KIEL)
 print(KIEL)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('Kiel.txt'), "w")
+f = open(time.strftime('Update/KielP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
+
 #elimino righe inutili
-lines1 = tuple(open('Kiel.txt', "r"))
-with open('Kiel.txt', "w+") as file:
+lines1 = tuple(open('Update/KielP.txt', "r"))
+with open('Update/KielP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
+#su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines1 = tuple(open('Kiel.txt', "r"))
-fileKiel = open(time.strftime('Kiel.txt'), "w+")
-#inizio dei cici for per importare i corretti valori per i grafici
-for j in range(len(lines1)):
-   sline = lines1[j].split()
-   if len(sline) == 2:
-    year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
-    month = int(lines1[j][5]+lines1[j][6])
-    day   = int(lines1[j][8]+lines1[j][9])
-    value = sline[1][9]
-    for i in range(10,len(sline[1])):
-       value += sline[1][i]
-    print(str(g2j(year,month,day)))
-    a = str(g2j(year,month,day))
-    fileKiel.write(a + "  " + value + "\n")
-   if len(sline) != 2:
-      year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
-      month = int(lines1[j][5]+lines1[j][6])
-      day   = int(lines1[j][8]+lines1[j][9])
-      print(str(g2j(year,month,day)))
-      a = str(g2j(year,month,day))
-      fileKiel.write(a + "  " + sline[2] + "\n")
+lines2 = tuple(open("Kiel.txt","r"))
+#lines 2 più corta
+lines1 = tuple(open('Update/KielP.txt', "r"))
+
+#appendo la differenza allo storico
+#evito conteggio di linee vuote
+n1 = len(lines1)
+n2 = len(lines2)
+if n1 != 0:
+ for i in range(n1):
+    if lines1[i] == "\n":
+        n1 -= 1
+if n2 != 0:
+ for i in range(n2):
+    if lines2[i] == "\n":
+        n2 -= 1
+
+#per evitare spazi indesiderati iniziali
+print(n1)
+print(n2)
+for j in range(n2,n1):
+     with open("Kiel.txt", "a") as file:
+         sline = lines1[j].split()
+         if len(sline) == 2:
+           year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
+           month = int(lines1[j][5]+lines1[j][6])
+           day   = int(lines1[j][8]+lines1[j][9])
+           value = sline[1][9]
+           for i in range(10,len(sline[1])):
+              value += sline[1][i]
+           print(str(g2j(year,month,day)) + "    " + str(len(sline)) )
+           a = str(g2j(year,month,day))
+           file.write(a + "  " + value + "\n")
+         if len(sline) != 2:
+           year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
+           month = int(lines1[j][5]+lines1[j][6])
+           day   = int(lines1[j][8]+lines1[j][9])
+           print(str(g2j(year,month,day)) + "    " + str(len(sline)) )
+           a = str(g2j(year,month,day))
+           file.write(a + "  " + sline[2] + "\n")
+
 #chiudo e salvo file
-fileKiel.close();
+file.close();

@@ -12,14 +12,14 @@ shutil.rmtree("Download")
 os.mkdir("Download")
 url = simple_get("http://wso.stanford.edu/Polar.html")
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('Download/Solar_Field_Strenght%m-%d-%Y.txt'), "w")
+f = open(time.strftime('backup/Solar_Field_Strenght%m-%d-%Y.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 #lo script importa i dati - tabelle complete - e le salva con la data attuale
 
 #elimino la prima riga per avere un format diviso in colonne
-lines1 = tuple(open(time.strftime('Download/Solar_Field_Strenght%m-%d-%Y.txt'), "r"))
-with open(time.strftime('Download/Solar_Field_Strenght%m-%d-%Y.txt'), "w+") as file:
+lines1 = tuple(open(time.strftime('backup/Solar_Field_Strenght%m-%d-%Y.txt'), "r"))
+with open(time.strftime('backup/Solar_Field_Strenght%m-%d-%Y.txt'), "w+") as file:
  for i in range(len(lines1)):
     if i > 2:
         file.write(lines1[i])
@@ -27,17 +27,28 @@ with open(time.strftime('Download/Solar_Field_Strenght%m-%d-%Y.txt'), "w+") as f
 #ho otteuto il file completo txt
 
 #creo il file SFSN.txt converto date in julian date
-lines1 = tuple(open(time.strftime('Download/Solar_Field_Strenght%m-%d-%Y.txt'), "r"))
-fileN = open(time.strftime('SFSNorth.txt'), "w+")
-fileS =  open(time.strftime('SFSSouth.txt'), "w+")
-fileA =  open(time.strftime('SFSAvg.txt'), "w+")
-fileNf = open(time.strftime('SFSNf.txt'), "w+")
-fileSf =  open(time.strftime('SFSSf.txt'), "w+")
-fileAf =  open(time.strftime('SFSAvgf.txt'), "w+")
+lines1 = tuple(open(time.strftime('backup/Solar_Field_Strenght%m-%d-%Y.txt'), "r"))
+fileN = open(time.strftime('SFSNorth.txt'), "a")
+fileS =  open(time.strftime('SFSSouth.txt'), "a")
+fileA =  open(time.strftime('SFSAvg.txt'), "a")
+fileNf = open(time.strftime('SFSNf.txt'), "a")
+fileSf =  open(time.strftime('SFSSf.txt'), "a")
+fileAf =  open(time.strftime('SFSAvgf.txt'), "a")
+lines2 = tuple(open(('SFSNorth.txt'), "r"))
+n1 = len(lines1)
+n2 = len(lines2)
 
+if n1 != 0:
+ for i in range(n1):
+    if lines1[i] == "\n":
+        n1 -= 1
+if n2 != 0:
+ for i in range(n2):
+    if lines2[i] == "\n":
+        n2 -= 1
 
 #inizio dei cici for per importare i corretti valori per i grafici
-for j in range(len(lines1)-1):
+for j in range(n2,n1):
    year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
    month = int(lines1[j][5]+lines1[j][6])
    day   = int(lines1[j][8]+lines1[j][9])
@@ -73,3 +84,5 @@ f.close()
 fileA.close()
 fileN.close()
 fileS.close()
+
+

@@ -1,5 +1,5 @@
 def g2j(year, month, day):
- lines2 = tuple(open('/Users/David/Desktop/programming/python/modules/Solar/SSN_History.txt', "r"))
+ lines2 = tuple(open('/var/www/html/SSN/SSN_History.txt', "r"))
  fyear = []
  fmonth = []
  fday = []

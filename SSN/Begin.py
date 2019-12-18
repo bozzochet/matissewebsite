@@ -21,3 +21,5 @@ with open('SSN_History.txt', 'w') as outfile:
         with open(fname) as infile:
             for line in infile:
                 outfile.write(line)
+#merge i 2 file--> Ottengo lo storico aggiornato al mese corrente
+shutil.copy('SSN_Monthly.txt', "backup/SSN_MonthlyP.txt")
