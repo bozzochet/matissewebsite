@@ -29,7 +29,7 @@ int main()
   c1->cd();
   c1->SetLogy();
     
-  TString nomefile2 = "SSN_MonthlyPLOT.txt"; //percorso
+  TString nomefile2 = "/var/www/html/SolarSmoothed/SSN_MonthlyPLOT.txt"; //percorso
   TGraphErrors *k = new TGraphErrors(nomefile2);
   k->GetXaxis()->SetTitle("year");
   k->GetYaxis()->SetTitle("SSN");
@@ -50,7 +50,7 @@ int main()
   c2->cd();
   c2->SetLogy();
     
-  TString nomefile = "SSN_13PLOT.txt"; //percorso
+  TString nomefile = "/var/www/html/SolarSmoothed/SSN_13PLOT.txt"; //percorso
   TGraphErrors *g = new TGraphErrors(nomefile);
   g->GetXaxis()->SetTitle("year");
   g->GetYaxis()->SetTitle("SSN");
@@ -118,7 +118,7 @@ int main()
      
   legend->Draw();
   //creo file di tipo root dove salvo la canvas contenente il grafico creato
-  TFile ff("ROOT/SolarSmoothed.root","recreate");
+  TFile ff("/var/www/html/SolarSmoothed/ROOT/SolarSmoothed.root","recreate");
   ff.cd();
   c3->Write();
   c4->Write();

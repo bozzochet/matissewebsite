@@ -26,7 +26,7 @@ int main()
   c1->SetFillColor(0);
     
     
-  TString nomefile = "SFSNorth.txt"; //percorso
+  TString nomefile = "/var/www/html/SFS/SFSNorth.txt"; //percorso
   TGraph *g = new TGraph(nomefile);
   g->GetXaxis()->SetTitle("year");
   g->GetYaxis()->SetTitle("Solar Field Strenght North");
@@ -41,7 +41,7 @@ int main()
   
   //grafico filtrato Notrh
       
-  TString nomefilef = "SFSNf.txt"; //percorso
+  TString nomefilef = "/var/www/html/SFS/SFSNf.txt"; //percorso
   TGraph *gf = new TGraph(nomefilef);
   gf->GetXaxis()->SetTitle("year");
   gf->GetYaxis()->SetTitle("Solar Field Strenght North 20nhz");
@@ -55,7 +55,7 @@ int main()
   g->SetTitle("Solar Field Strnght North 20nhz ");
     
      
-  TString nomefile2 = "SFSSouth.txt"; //percorso
+  TString nomefile2 = "/var/www/html/SFS/SFSSouth.txt"; //percorso
   TGraph *k = new TGraph(nomefile2);
   k->GetXaxis()->SetTitle("year");
   k->GetYaxis()->SetTitle("Solar Field Strenght South");
@@ -68,7 +68,7 @@ int main()
   k->SetMarkerStyle(1);
   k->SetTitle("Solar Field Strenght South");
   //grafico filtrato sud
-  TString nomefile2f = "SFSSf.txt"; //percorso
+  TString nomefile2f = "/var/www/html/SFS/SFSSf.txt"; //percorso
   TGraph *kf = new TGraph(nomefile2f);
   kf->GetXaxis()->SetTitle("year");
   kf->GetYaxis()->SetTitle("Solar Field Strenght South 20 nhz");
@@ -81,7 +81,7 @@ int main()
   kf->SetMarkerColor(38);
   kf->SetTitle("Solar Field Strenght South 20nhz");
     
-  TString nomefile3 = "SFSAvg.txt"; //percorso
+  TString nomefile3 = "/var/www/html/SFS/SFSAvg.txt"; //percorso
   TGraph *h = new TGraph(nomefile3);
   h->GetXaxis()->SetTitle("year");
   h->GetYaxis()->SetTitle("Solar Field Strenght Avg");
@@ -95,7 +95,7 @@ int main()
   h->SetTitle("Solar Field Strenght Average");
     //fitrato AVg
     
-    TString nomefile3f = "SFSAvgf.txt"; //percorso
+    TString nomefile3f = "/var/www/html/SFS/SFSAvgf.txt"; //percorso
         TGraph *hf = new TGraph(nomefile3f);
         hf->GetXaxis()->SetTitle("year");
         hf->GetYaxis()->SetTitle("Solar Field Strenght Avg 20 nhz");
@@ -142,7 +142,7 @@ int main()
       
     //creo file di tipo root dove salvo la canvas contenente il grafico creato
  
-    TFile ff("ROOT/SFS.root" , "recreate");
+    TFile ff("/var/www/html/SFS/ROOT/SFS.root" , "recreate");
     ff.cd();
     k->Write();
     h->Write();

@@ -22,23 +22,23 @@ OULU= OULU.replace("end_day=4","end_day="+day)
 url = simple_get(OULU)
 print(OULU)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('Update/OuluP.txt'), "w")
+f = open(time.strftime('/var/www/html/Neutron/Update/OuluP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('Update/OuluP.txt', "r"))
-with open('Update/OuluP.txt', "w+") as file:
+lines1 = tuple(open('/var/www/html/Neutron/Update/OuluP.txt', "r"))
+with open('/var/www/html/Neutron/Update/OuluP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
 #su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines2 = tuple(open("Oulu.txt","r"))
+lines2 = tuple(open("/var/www/html/Neutron/Oulu.txt","r"))
 #lines 2 più corta
-lines1 = tuple(open('Update/OuluP.txt', "r"))
+lines1 = tuple(open('/var/www/html/Neutron/Update/OuluP.txt', "r"))
 
 #appendo la differenza allo storico
 #evito conteggio di linee vuote
@@ -57,7 +57,7 @@ if n2 != 0:
 print(n1)
 print(n2)
 #per evitare spazi indesiderati iniziali
-file = open(('Oulu.txt'), "a")
+file = open(('/var/www/html/Neutron/Oulu.txt'), "a")
 for j in range(n2,n1):
    sline = lines1[j].split()
    #print(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
@@ -95,23 +95,23 @@ url = simple_get(JUNG)
 print(JUNG)
 url = simple_get(JUNG)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('Update/JungP.txt'), "w")
+f = open(time.strftime('/var/www/html/Neutron/Update/JungP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('Update/JungP.txt', "r"))
-with open('Update/JungP.txt', "w+") as file:
+lines1 = tuple(open('/var/www/html/Neutron/Update/JungP.txt', "r"))
+with open('/var/www/html/Neutron/Update/JungP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
 #su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines2 = tuple(open("Jung.txt","r"))
+lines2 = tuple(open("/var/www/html/Neutron/Jung.txt","r"))
 #lines 2 più corta
-lines1 = tuple(open('Update/JungP.txt', "r"))
+lines1 = tuple(open('/var/www/html/Neutron/Update/JungP.txt', "r"))
 
 #appendo la differenza allo storico
 #evito conteggio di linee vuote
@@ -129,7 +129,7 @@ print(n1)
 print(n2)
 #per evitare spazi indesiderati iniziali
 for j in range(n2,n1):
-     with open("Jung.txt", "a") as file:
+     with open("/var/www/html/Neutron/Jung.txt", "a") as file:
          sline = lines1[j].split()
          if len(sline) == 2:
            year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
@@ -164,23 +164,23 @@ NEWK= NEWK.replace("end_day=4","end_day="+day)
 url = simple_get(NEWK)
 print(NEWK)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('Update/NewkP.txt'), "w")
+f = open(time.strftime('/var/www/html/Neutron/Update/NewkP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('Update/NewkP.txt', "r"))
-with open('Update/NewkP.txt', "w+") as file:
+lines1 = tuple(open('/var/www/html/Neutron/Update/NewkP.txt', "r"))
+with open('/var/www/html/Neutron/Update/NewkP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
 #su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines2 = tuple(open("Newk.txt","r"))
+lines2 = tuple(open("/var/www/html/Neutron/Newk.txt","r"))
 #lines 2 più corta
-lines1 = tuple(open('Update/NewkP.txt', "r"))
+lines1 = tuple(open('/var/www/html/Neutron/Update/NewkP.txt', "r"))
 
 
 #appendo la differenza allo storico
@@ -199,7 +199,7 @@ print(n1)
 print(n2)
 #per evitare spazi indesiderati iniziali
 for j in range(n2,n1):
-     with open("Newk.txt", "a") as file:
+     with open("/var/www/html/Neutron/Newk.txt", "a") as file:
          sline = lines1[j].split()
          if len(sline) == 2:
            year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
@@ -233,23 +233,23 @@ KIEL= KIEL.replace("end_day=4","end_day="+day)
 url = simple_get(KIEL)
 print(KIEL)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('Update/KielP.txt'), "w")
+f = open(time.strftime('/var/www/html/Neutron/Update/KielP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('Update/KielP.txt', "r"))
-with open('Update/KielP.txt', "w+") as file:
+lines1 = tuple(open('/var/www/html/Neutron/Update/KielP.txt', "r"))
+with open('/var/www/html/Neutron/Update/KielP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
 #su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines2 = tuple(open("Kiel.txt","r"))
+lines2 = tuple(open("/var/www/html/Neutron/Kiel.txt","r"))
 #lines 2 più corta
-lines1 = tuple(open('Update/KielP.txt', "r"))
+lines1 = tuple(open('/var/www/html/Neutron/Update/KielP.txt', "r"))
 
 #appendo la differenza allo storico
 #evito conteggio di linee vuote
@@ -268,7 +268,7 @@ if n2 != 0:
 print(n1)
 print(n2)
 for j in range(n2,n1):
-     with open("Kiel.txt", "a") as file:
+     with open("/var/www/html/Neutron/Kiel.txt", "a") as file:
          sline = lines1[j].split()
          if len(sline) == 2:
            year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])

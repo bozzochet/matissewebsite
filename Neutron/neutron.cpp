@@ -27,7 +27,7 @@ int main()
   c1->SetFillColor(0);
     
   //JUNG----
-  TString nomefile = "Jung.txt"; //percorso
+  TString nomefile = "/var/www/html/Neutron/Jung.txt"; //percorso
   TGraph *g = new TGraph(nomefile);
   g->GetXaxis()->SetTitle("year");
   g->GetYaxis()->SetTitle("NM Rate");
@@ -43,7 +43,7 @@ int main()
   //grafico filtrato Notrh
       
   //Oulu----------
-  TString nomefilef = "Oulu.txt"; //percorso
+  TString nomefilef = "/var/www/html/Neutron/Oulu.txt"; //percorso
   TGraph *gf = new TGraph(nomefilef);
   gf->GetXaxis()->SetTitle("year");
   gf->GetYaxis()->SetTitle("NM Rate");
@@ -58,7 +58,7 @@ int main()
   g->SetTitle("Oulu Data");
     
   //kiel -----
-  TString nomefile2 = "Kiel.txt"; //percorso
+  TString nomefile2 = "/var/www/html/Neutron/Kiel.txt"; //percorso
   TGraph *k = new TGraph(nomefile2);
   k->GetXaxis()->SetTitle("year");
   k->GetYaxis()->SetTitle("NM Rate");
@@ -74,7 +74,7 @@ int main()
     
     
   // Newk --
-  TString nomefile2f = "Newk.txt"; //percorso
+  TString nomefile2f = "/var/www/html/Neutron/Newk.txt"; //percorso
   TGraph *kf = new TGraph(nomefile2f);
   kf->GetXaxis()->SetTitle("year");
   kf->GetYaxis()->SetTitle("NM Rate");
@@ -121,7 +121,7 @@ int main()
       
   //creo file di tipo root dove salvo la canvas contenente il grafico creato
  
-  TFile ff("ROOT/Neutron.root" , "recreate");
+  TFile ff("/var/www/html/Neutron/ROOT/Neutron.root" , "recreate");
   ff.cd();
   k->Write();
   g->Write();

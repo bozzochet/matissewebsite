@@ -3,6 +3,6 @@ import shutil
 import os
 import time
 
-shutil.rmtree("Download")
-os.mkdir("Download")
-shutil.copy("ROOT/SolarSmoothed.root",time.strftime('Download/SolarSmoothed_%m-%d-%Y.root'))
+shutil.rmtree("/var/www/html/SolarSmoothed/Download")
+os.mkdir("/var/www/html/SolarSmoothed/Download")
+shutil.copy("/var/www/html/SolarSmoothed/ROOT/SolarSmoothed.root",time.strftime('/var/www/html/SolarSmoothed/Download/SolarSmoothed_%m-%d-%Y.root'))

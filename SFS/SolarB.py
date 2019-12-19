@@ -8,18 +8,18 @@ from contextlib import closing
 from bs4 import BeautifulSoup
 from mathematicians import simple_get
 #cancellare vecchio salvataggio in Download e aggiornare file con data
-shutil.rmtree("Download")
-os.mkdir("Download")
+shutil.rmtree("/var/www/html/SFS/Download")
+os.mkdir("/var/www/html/SFS/Download")
 url = simple_get("http://wso.stanford.edu/Polar.html")
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('backup/Solar_Field_Strenght%m-%d-%Y.txt'), "w")
+f = open(time.strftime('/var/www/html/SFS/backup/Solar_Field_Strenght%m-%d-%Y.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 #lo script importa i dati - tabelle complete - e le salva con la data attuale
 
 #elimino la prima riga per avere un format diviso in colonne
-lines1 = tuple(open(time.strftime('backup/Solar_Field_Strenght%m-%d-%Y.txt'), "r"))
-with open(time.strftime('backup/Solar_Field_Strenght%m-%d-%Y.txt'), "w+") as file:
+lines1 = tuple(open(time.strftime('/var/www/html/SFS/backup/Solar_Field_Strenght%m-%d-%Y.txt'), "r"))
+with open(time.strftime('/var/www/html/SFS/backup/Solar_Field_Strenght%m-%d-%Y.txt'), "w+") as file:
  for i in range(len(lines1)):
     if i > 2:
         file.write(lines1[i])
@@ -27,14 +27,14 @@ with open(time.strftime('backup/Solar_Field_Strenght%m-%d-%Y.txt'), "w+") as fil
 #ho otteuto il file completo txt
 
 #creo il file SFSN.txt converto date in julian date
-lines1 = tuple(open(time.strftime('backup/Solar_Field_Strenght%m-%d-%Y.txt'), "r"))
-fileN = open(time.strftime('SFSNorth.txt'), "a")
-fileS =  open(time.strftime('SFSSouth.txt'), "a")
-fileA =  open(time.strftime('SFSAvg.txt'), "a")
-fileNf = open(time.strftime('SFSNf.txt'), "a")
-fileSf =  open(time.strftime('SFSSf.txt'), "a")
-fileAf =  open(time.strftime('SFSAvgf.txt'), "a")
-lines2 = tuple(open(('SFSNorth.txt'), "r"))
+lines1 = tuple(open(time.strftime('/var/www/html/SFS/backup/Solar_Field_Strenght%m-%d-%Y.txt'), "r"))
+fileN = open(time.strftime('/var/www/html/SFS/SFSNorth.txt'), "a")
+fileS =  open(time.strftime('/var/www/html/SFS/SFSSouth.txt'), "a")
+fileA =  open(time.strftime('/var/www/html/SFS/SFSAvg.txt'), "a")
+fileNf = open(time.strftime('/var/www/html/SFS/SFSNf.txt'), "a")
+fileSf =  open(time.strftime('/var/www/html/SFS/SFSSf.txt'), "a")
+fileAf =  open(time.strftime('/var/www/html/SFS/SFSAvgf.txt'), "a")
+lines2 = tuple(open(('/var/www/html/SFS/SFSNorth.txt'), "r"))
 n1 = len(lines1)
 n2 = len(lines2)
 
@@ -84,5 +84,3 @@ f.close()
 fileA.close()
 fileN.close()
 fileS.close()
-
-

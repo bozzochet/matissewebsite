@@ -3,6 +3,6 @@ import shutil
 import os
 import time
 
-shutil.rmtree("Download")
-os.mkdir("Download")
-shutil.copy("ROOT/SSN.root",time.strftime('Download/SSN_%m-%d-%Y.root'))
+shutil.rmtree("/var/www/html/SSN/Download")
+os.mkdir("/var/www/html/SSN/Download")
+shutil.copy("/var/www/html/SSN/ROOT/SSN.root",time.strftime('/var/www/html/SSN/Download/SSN_%m-%d-%Y.root'))

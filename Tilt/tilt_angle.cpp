@@ -26,7 +26,7 @@ int main()
   c1->SetFillColor(0);
     
     
-  TString nomefile = "Tilt_R_av.txt"; //percorso
+  TString nomefile = "/var/www/html/Tilt/Tilt_R_av.txt"; //percorso
   TGraph *g = new TGraph(nomefile);
   g->GetXaxis()->SetTitle("year");
   g->GetYaxis()->SetTitle("tilt Angle(deg)");
@@ -40,7 +40,7 @@ int main()
   
   //grafico filtrato Notrh
       
-  TString nomefilef = "Tilt_R_n.txt"; //percorso
+  TString nomefilef = "/var/www/html/Tilt/Tilt_R_n.txt"; //percorso
   TGraph *gf = new TGraph(nomefilef);
   gf->GetXaxis()->SetTitle("year");
   gf->GetYaxis()->SetTitle("tilt Angle(deg)");
@@ -53,7 +53,7 @@ int main()
   gf->SetTitle("Tilt Angle");
     
      
-  TString nomefile2 = "Tilt_R_s.txt"; //percorso
+  TString nomefile2 = "/var/www/html/Tilt/Tilt_R_s.txt"; //percorso
   TGraph *k = new TGraph(nomefile2);
   k->GetXaxis()->SetTitle("year");
   k->GetYaxis()->SetTitle("tilt Angle (deg)");
@@ -65,7 +65,7 @@ int main()
   k->SetMarkerStyle(1);
   k->SetTitle("Tilt Angle");
   //grafico filtrato sud
-  TString nomefile2f = "Tilt_L_av.txt"; //percorso
+  TString nomefile2f = "/var/www/html/Tilt/Tilt_L_av.txt"; //percorso
   TGraph *kf = new TGraph(nomefile2f);
   kf->GetXaxis()->SetTitle("year");
   kf->GetYaxis()->SetTitle("tilt Angle (deg)");
@@ -77,7 +77,7 @@ int main()
   kf->SetMarkerStyle(1);
   kf->SetTitle("Tilt Angle");
     
-  TString nomefile3 = "Tilt_L_n.txt"; //percorso
+  TString nomefile3 = "/var/www/html/Tilt/Tilt_L_n.txt"; //percorso
   TGraph *h = new TGraph(nomefile3);
   h->GetXaxis()->SetTitle("year");
   h->GetYaxis()->SetTitle("tilt Angle (deg)");
@@ -90,7 +90,7 @@ int main()
   h->SetTitle("Tilt Angle");
   //fitrato AVg
     
-  TString nomefile3f = "Tilt_L_s.txt"; //percorso
+  TString nomefile3f = "/var/www/html/Tilt/Tilt_L_s.txt"; //percorso
   TGraph *hf = new TGraph(nomefile3f);
   hf->GetXaxis()->SetTitle("year");
   hf->GetYaxis()->SetTitle("tilt Angle (deg)");
@@ -137,7 +137,7 @@ int main()
       
   //creo file di tipo root dove salvo la canvas contenente il grafico creato
  
-  TFile ff("ROOT/TILT.root" , "recreate");
+  TFile ff("/var/www/html/Tilt/ROOT/TILT.root" , "recreate");
   ff.cd();
   k->Write();
   h->Write();

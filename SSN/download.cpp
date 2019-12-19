@@ -30,7 +30,7 @@ int main()
   c1->SetFillColor(19);
   c1->cd();
     
-  TString nomefile = "SSNPLOT.txt"; //percorso
+  TString nomefile = "/var/www/html/SSN/SSNPLOT.txt"; //percorso
   TGraphErrors *g = new TGraphErrors(nomefile);
   g->GetXaxis()->SetTitle("year");
   g->GetYaxis()->SetTitle("SunSpot Number");
@@ -51,7 +51,7 @@ int main()
   c2->SetFillColor(19);
   c2->cd();
      
-  TString nomefile2 = "SSNLINE.txt"; //percorso
+  TString nomefile2 = "/var/www/html/SSN/SSNLINE.txt"; //percorso
   TGraph *k = new TGraph(nomefile2);
   k->GetXaxis()->SetTitle("year");
   k->GetYaxis()->SetTitle("SunSpot Number");
@@ -71,7 +71,7 @@ int main()
 
     
   //creo file di tipo root dove salvo la canvas contenente il grafico creato
-  TFile ff("ROOT/SSN.root","recreate");
+  TFile ff("/var/www/html/SSN/ROOT/SSN.root","recreate");
   ff.cd();
   k->Write();
   g->Write();

@@ -3,7 +3,7 @@ import os
 import time
 import shutil
 #problemi spazi
-with open("SSN_History.txt", "r") as infile:
+with open("/var/www/html/SSN/SSN_History.txt", "r") as infile:
     lines = infile.readlines()
 a = lines
 for i in range(len(a)):
@@ -11,7 +11,7 @@ for i in range(len(a)):
      del a[i:len(a)]
      break
 
-fout = open("SSN_History.txt","w")
+fout = open("/var/www/html/SSN/SSN_History.txt","w")
 fout.writelines(a)
 fout.close()
 #scarico ogni giorno il daily
@@ -21,13 +21,13 @@ fout.close()
 url = 'http://www.sidc.be/silso/DATA/EISN/EISN_current.txt'
 r = requests.get(url, allow_redirects=True)
 #sovrascrive il mese monthly
-open('SSN_Monthly.txt', 'wb').write(r.content)
+open('/var/www/html/SSN/SSN_Monthly.txt', 'wb').write(r.content)
 
-lines1 = tuple(open("backup/SSN_MonthlyP.txt","r"))
-lines2 = tuple(open("SSN_Monthly.txt","r"))
+lines1 = tuple(open("/var/www/html/SSN/backup/SSN_MonthlyP.txt","r"))
+lines2 = tuple(open("/var/www/html/SSN/SSN_Monthly.txt","r"))
 
 if len(lines2) == 1:
-    f = open('SSN_History.txt', 'a')
+    f = open('/var/www/html/SSN/SSN_History.txt', 'a')
     f.write(lines2[0])
 if len(lines2) != 1:
 #appendo la differenza allo storico
@@ -46,23 +46,23 @@ if len(lines2) != 1:
 #per evitare spazi indesiderati iniziali
 
  for a in range(n1,n2):
-     with open("SSN_History.txt", "a") as file:
+     with open("/var/www/html/SSN/SSN_History.txt", "a") as file:
          file.write(lines2[a])
 #fine if
 
 #a questo punto lo storico contiene tutte le info da 1818 - al giorno corrente
 
 #sovrascrivere backup
-open('backup/SSN_MonthlyP.txt', 'wb').write(r.content)
+open('/var/www/html/SSN/backup/SSN_MonthlyP.txt', 'wb').write(r.content)
 
 #cancellare vecchio salvataggio in Download e aggiornare file con data
 #shutil.rmtree("/Users/David/Desktop/programming/python/modules/Solar/Download")
 #os.mkdir("/Users/David/Desktop/programming/python/modules/Solar/Download")
 #shutil.copy('/Users/David/Desktop/programming/python/modules/Solar/SSN_History.txt', time.strftime("/Users/David/Desktop/programming/python/modules/Solar/Download/SSN(1-1-1818 ; %m-%d-%Y).txt"))
 import re
-infile = open ('SSN_History.txt', 'r')
-outfile = open ('SSNPLOT.txt', 'w')
-outfile2 = open ('SSNLINE.txt', 'w')
+infile = open ('/var/www/html/SSN/SSN_History.txt', 'r')
+outfile = open ('/var/www/html/SSN/SSNPLOT.txt', 'w')
+outfile2 = open ('/var/www/html/SSN/SSNLINE.txt', 'w')
 column1 = 3
 column2 = 4
 column3 = 5

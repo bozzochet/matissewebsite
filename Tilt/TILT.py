@@ -8,18 +8,18 @@ from contextlib import closing
 from bs4 import BeautifulSoup
 from mathematicians import simple_get
 #cancellare vecchio salvataggio in Download e aggiornare file con data
-shutil.rmtree("Download")
-os.mkdir("Download")
+shutil.rmtree("/var/www/html/Tilt/Download")
+os.mkdir("/var/www/html/Tilt/Download")
 url = simple_get("http://wso.stanford.edu/Tilts.html")
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('Download/Solar-TILT_ANGLE%m-%d-%Y.txt'), "w")
+f = open(time.strftime('/var/www/html/Tilt/Download/Solar-TILT_ANGLE%m-%d-%Y.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 #lo script importa i dati - tabelle complete - e le salva con la data attuale
 
 #elimino la prima riga per avere un format diviso in colonne
-lines1 = tuple(open(time.strftime('Download/Solar-TILT_ANGLE%m-%d-%Y.txt'), "r"))
-with open(time.strftime('Download/Solar-TILT_ANGLE%m-%d-%Y.txt'), "w+") as file:
+lines1 = tuple(open(time.strftime('/var/www/html/Tilt/Download/Solar-TILT_ANGLE%m-%d-%Y.txt'), "r"))
+with open(time.strftime('/var/www/html/Tilt/Download/Solar-TILT_ANGLE%m-%d-%Y.txt'), "w+") as file:
  for i in range(len(lines1)):
     if i > 1:
         file.write(lines1[i])
@@ -27,28 +27,17 @@ with open(time.strftime('Download/Solar-TILT_ANGLE%m-%d-%Y.txt'), "w+") as file:
 #ho otteuto il file completo txt
 
 #creo il file SFSN.txt converto date in julian date
-lines1 = tuple(open(time.strftime('Download/Solar-TILT_ANGLE%m-%d-%Y.txt'), "r"))
-fileRav = open(time.strftime('Tilt_R_av.txt'), "a")
-fileRn =  open(time.strftime('Tilt_R_n.txt'), "a")
-fileRs =  open(time.strftime('Tilt_R_s.txt'), "a")
-fileLav = open(time.strftime('Tilt_L_av.txt'), "a")
-fileLn =  open(time.strftime('Tilt_L_n.txt'), "a")
-fileLs =  open(time.strftime('Tilt_L_s.txt'), "a")
-lines2 = tuple(open(('Tilt_L_n.txt'), "r"))
+lines1 = tuple(open(time.strftime('/var/www/html/Tilt/Download/Solar-TILT_ANGLE%m-%d-%Y.txt'), "r"))
+fileRav = open(time.strftime('/var/www/html/Tilt/Tilt_R_av.txt'), "w+")
+fileRn =  open(time.strftime('/var/www/html/Tilt/Tilt_R_n.txt'), "w+")
+fileRs =  open(time.strftime('/var/www/html/Tilt/Tilt_R_s.txt'), "w+")
+fileLav = open(time.strftime('/var/www/html/Tilt/Tilt_L_av.txt'), "w+")
+fileLn =  open(time.strftime('/var/www/html/Tilt/Tilt_L_n.txt'), "w+")
+fileLs =  open(time.strftime('/var/www/html/Tilt/Tilt_L_s.txt'), "w+")
 
-n1 = len(lines1)
-n2 = len(lines2)
 
-if n1 != 0:
- for i in range(n1):
-    if lines1[i] == "\n":
-        n1 -= 1
-if n2 != 0:
- for i in range(n2):
-    if lines2[i] == "\n":
-        n2 -= 1
-#splitto in colonne le varie righe aggiungo solo la differenza
-for j in range(n2,n1):
+#splitto in colonne le varie righe
+for j in range(len(lines1)-1):
    sline = lines1[j].split()
    year  = int(sline[2][0]+sline[2][1]+sline[2][2]+sline[2][3])
    month = int(sline[2][5]+sline[2][6])
