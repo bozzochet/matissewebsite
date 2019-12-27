@@ -28,10 +28,17 @@
 <script src="/jsroot/scripts/JSRootCore.js?2d&onload=createGUI"> type="text/javascript"></script>
 
 <script type='text/javascript'>
-var filename = "/Neutron/Neutron.root";
+var filename = "/Neutron/ROOT/Neutron.root";
    JSROOT.OpenFile(filename, function(file) {
 file.ReadObject("TOTAL Graph;1", function(obj) {
        JSROOT.draw("drawing", obj);
+     });
+   });
+
+var filename = "/Neutron2/ROOT/Neutron.root";
+   JSROOT.OpenFile(filename, function(file) {
+file.ReadObject("TOTAL Graph2;1", function(obj) {
+       JSROOT.draw("drawing2", obj);
      });
    });
 </script>
@@ -62,7 +69,8 @@ file.ReadObject("TOTAL Graph;1", function(obj) {
           <li><a class="about" href="/SFS.html">Solar Field Strenght</a></li>
           <li><a class="about" href="/Tilt.html">Tilt Angle</a></li>
           <li><a class="about" href="/SolarSmoothed.html">SSN Smoothed & Monthly</a></li>
-          <li><a class="about" href="/Neutron.html">Neutron Monitor</a></li>
+        <li><a class="about" href="/Resources.html">Resources</a></li>
+         <li><a class="about" href="/Neutron.html">Neutron Monitor</a></li>
         </ul>
       </div>
     </div>
@@ -73,16 +81,46 @@ file.ReadObject("TOTAL Graph;1", function(obj) {
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <center><h3 style="color:rgb(60, 128, 214);"><b>Neutron Monitor Data</b></h3></center>
-Neutron Monitor JUNG , OULU, NEWK, KIEL
-
+Last updated date: <p id="date"></p> <br>
+<script>
+n =  new Date();
+y = n.getFullYear();
+m = n.getMonth() + 1;
+d = n.getDate();
+document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
+</script>
 
 
 <br><br>
-<center>
+<center>  
+<script>
+function Tree(){
+    var now = new Date();
+    var month = parseInt(now.getMonth())+1;
+    var path = "NeutronTree_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
+    window.location.href="/TREE/Download/"+path;
+}
+function Root(){
+    var now = new Date();
+    var month = parseInt(now.getMonth())+1;
+    var path = "Neutron_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
+    window.location.href="/Neutron/Download/"+path;
+}
+function Root2(){
+    var now = new Date();
+    var month = parseInt(now.getMonth())+1;
+    var path = "Neutron2_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
+    window.location.href="/Neutron2/Download/"+path;
+}
+</script>Neutron Monitors Set 1: <b>JUNG</b>,  <b>KIEL</b>,  <b>OULU</b>,  <b>NEWK</b>
 <div id="drawing" style="width:650px; height:400px"></div>
-<button><type="button"> <a href="/Neutron/Neutron.root"> ROOT File</button>
-<button><type="button"> <a href="/TREE/NeutronTree.root"> ROOT Tree</button>
-
+<button><type="button"><a onclick="Tree();">ROOT Tree</a></button>
+<button><type="button"><a onclick="Root();">ROOT File</a></button>
+<br><br>
+</script>Neutron Monitors Set 2: <b>KERG</b>,  <b>APTY</b>,  <b>INVK</b>,  <b>MOSC</b>
+<div id="drawing2" style="width:650px; height:400px"></div>
+<button><type="button"><a onclick="Tree();">ROOT Tree</a></button>
+<button><type="button"><a onclick="Root2();">ROOT File</a></button>
 </center>
 
 

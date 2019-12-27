@@ -10,35 +10,35 @@ from bs4 import BeautifulSoup
 from mathematicians import simple_get
 
 now = datetime.datetime.now()
-#------------------OULU----------
-OULU = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=OULU&tabchoice=1h&dtype=corr_for_efficiency&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
+#------------------INVK----------
+INVK = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=INVK&tabchoice=1h&dtype=corr_for_efficiency&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
 year = str(now.year)
 month = str(now.month)
 day = str(now.day)
 print(year+month+day)
-OULU = OULU.replace("end_year=2019","end_year="+year)
-OULU= OULU.replace("end_month=12","end_month="+month)
-OULU= OULU.replace("end_day=4","end_day="+day)
-url = simple_get(OULU)
-print(OULU)
+INVK = INVK.replace("end_year=2019","end_year="+year)
+INVK= INVK.replace("end_month=12","end_month="+month)
+INVK= INVK.replace("end_day=4","end_day="+day)
+url = simple_get(INVK)
+print(INVK)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('/var/www/html/Neutron/Update/OuluP.txt'), "w")
+f = open(time.strftime('Update/INVKP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('/var/www/html/Neutron/Update/OuluP.txt', "r"))
-with open('/var/www/html/Neutron/Update/OuluP.txt', "w+") as file:
+lines1 = tuple(open('Update/INVKP.txt', "r"))
+with open('Update/INVKP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
 #su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines2 = tuple(open("/var/www/html/Neutron/Oulu.txt","r"))
+lines2 = tuple(open("INVK.txt","r"))
 #lines 2 più corta
-lines1 = tuple(open('/var/www/html/Neutron/Update/OuluP.txt', "r"))
+lines1 = tuple(open('Update/INVKP.txt', "r"))
 
 #appendo la differenza allo storico
 #evito conteggio di linee vuote
@@ -57,7 +57,7 @@ if n2 != 0:
 print(n1)
 print(n2)
 #per evitare spazi indesiderati iniziali
-file = open(('/var/www/html/Neutron/Oulu.txt'), "a")
+file = open(('INVK.txt'), "a")
 for j in range(n2,n1):
    sline = lines1[j].split()
    #print(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
@@ -82,36 +82,36 @@ for j in range(n2,n1):
 #chiudo e salvo file
 file.close();
 
-#-----------JUNG----
-JUNG = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=JUNG&tabchoice=1h&dtype=corr_for_efficiency&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
+#-----------KERG----
+KERG = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=KERG&tabchoice=1h&dtype=corr_for_efficiency&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
 year = str(now.year)
 month = str(now.month)
 day = str(now.day)
 print(year+month+day)
-JUNG = JUNG.replace("end_year=2019","end_year="+year)
-JUNG= JUNG.replace("end_month=12","end_month="+month)
-JUNG= JUNG.replace("end_day=4","end_day="+day)
-url = simple_get(JUNG)
-print(JUNG)
-url = simple_get(JUNG)
+KERG = KERG.replace("end_year=2019","end_year="+year)
+KERG= KERG.replace("end_month=12","end_month="+month)
+KERG= KERG.replace("end_day=4","end_day="+day)
+url = simple_get(KERG)
+print(KERG)
+url = simple_get(KERG)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('/var/www/html/Neutron/Update/JungP.txt'), "w")
+f = open(time.strftime('Update/KERGP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('/var/www/html/Neutron/Update/JungP.txt', "r"))
-with open('/var/www/html/Neutron/Update/JungP.txt', "w+") as file:
+lines1 = tuple(open('Update/KERGP.txt', "r"))
+with open('Update/KERGP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
 #su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines2 = tuple(open("/var/www/html/Neutron/Jung.txt","r"))
+lines2 = tuple(open("KERG.txt","r"))
 #lines 2 più corta
-lines1 = tuple(open('/var/www/html/Neutron/Update/JungP.txt', "r"))
+lines1 = tuple(open('Update/KERGP.txt', "r"))
 
 #appendo la differenza allo storico
 #evito conteggio di linee vuote
@@ -129,7 +129,7 @@ print(n1)
 print(n2)
 #per evitare spazi indesiderati iniziali
 for j in range(n2,n1):
-     with open("/var/www/html/Neutron/Jung.txt", "a") as file:
+     with open("KERG.txt", "a") as file:
          sline = lines1[j].split()
          if len(sline) == 2:
            year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
@@ -152,35 +152,35 @@ for j in range(n2,n1):
 #chiudo e salvo file
 file.close();
 
-#--------------NEWK----------------------------------------------
-NEWK = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=NEWK&tabchoice=1h&dtype=corr_for_efficiency&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
+#--------------MOSC----------------------------------------------
+MOSC = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=MOSC&tabchoice=1h&dtype=corr_for_efficiency&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
 year = str(now.year)
 month = str(now.month)
 day = str(now.day)
 print(year+month+day)
-NEWK = NEWK.replace("end_year=2019","end_year="+year)
-NEWK= NEWK.replace("end_month=12","end_month="+month)
-NEWK= NEWK.replace("end_day=4","end_day="+day)
-url = simple_get(NEWK)
-print(NEWK)
+MOSC = MOSC.replace("end_year=2019","end_year="+year)
+MOSC= MOSC.replace("end_month=12","end_month="+month)
+MOSC= MOSC.replace("end_day=4","end_day="+day)
+url = simple_get(MOSC)
+print(MOSC)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('/var/www/html/Neutron/Update/NewkP.txt'), "w")
+f = open(time.strftime('Update/MOSCP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('/var/www/html/Neutron/Update/NewkP.txt', "r"))
-with open('/var/www/html/Neutron/Update/NewkP.txt', "w+") as file:
+lines1 = tuple(open('Update/MOSCP.txt', "r"))
+with open('Update/MOSCP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
 #su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines2 = tuple(open("/var/www/html/Neutron/Newk.txt","r"))
+lines2 = tuple(open("MOSC.txt","r"))
 #lines 2 più corta
-lines1 = tuple(open('/var/www/html/Neutron/Update/NewkP.txt', "r"))
+lines1 = tuple(open('Update/MOSCP.txt', "r"))
 
 
 #appendo la differenza allo storico
@@ -199,7 +199,7 @@ print(n1)
 print(n2)
 #per evitare spazi indesiderati iniziali
 for j in range(n2,n1):
-     with open("/var/www/html/Neutron/Newk.txt", "a") as file:
+     with open("MOSC.txt", "a") as file:
          sline = lines1[j].split()
          if len(sline) == 2:
            year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
@@ -221,35 +221,35 @@ for j in range(n2,n1):
 
 #chiudo e salvo file
 file.close();
-#--------Kiel-----------------------------
-KIEL = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=KIEL&tabchoice=1h&dtype=corr_for_efficiency&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
+#--------APTY-----------------------------
+APTY = "http://www.nmdb.eu/nest/draw_graph.php?formchk=1&stations[]=APTY&tabchoice=1h&dtype=corr_for_efficiency&tresolution=43200&yunits=0&date_choice=bydate&start_day=1&start_month=1&start_year=1960&start_hour=0&start_min=0&end_day=4&end_month=12&end_year=2019&end_hour=23&end_min=59&output=ascii"
 year = str(now.year)
 month = str(now.month)
 day = str(now.day)
 print(year+month+day)
-KIEL = KIEL.replace("end_year=2019","end_year="+year)
-KIEL= KIEL.replace("end_month=12","end_month="+month)
-KIEL= KIEL.replace("end_day=4","end_day="+day)
-url = simple_get(KIEL)
-print(KIEL)
+APTY = APTY.replace("end_year=2019","end_year="+year)
+APTY= APTY.replace("end_month=12","end_month="+month)
+APTY= APTY.replace("end_day=4","end_day="+day)
+url = simple_get(APTY)
+print(APTY)
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('/var/www/html/Neutron/Update/KielP.txt'), "w")
+f = open(time.strftime('Update/APTYP.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 f.close()
 
 #elimino righe inutili
-lines1 = tuple(open('/var/www/html/Neutron/Update/KielP.txt', "r"))
-with open('/var/www/html/Neutron/Update/KielP.txt', "w+") as file:
+lines1 = tuple(open('Update/APTYP.txt', "r"))
+with open('Update/APTYP.txt', "w+") as file:
  for i in range(len(lines1)):
     if i > 25:
         file.write(lines1[i])
 #su OuluP.txt ho scaricato i dati correnti devo confrontarli con Oulu.txt storico
 
 
-lines2 = tuple(open("/var/www/html/Neutron/Kiel.txt","r"))
+lines2 = tuple(open("APTY.txt","r"))
 #lines 2 più corta
-lines1 = tuple(open('/var/www/html/Neutron/Update/KielP.txt', "r"))
+lines1 = tuple(open('Update/APTYP.txt', "r"))
 
 #appendo la differenza allo storico
 #evito conteggio di linee vuote
@@ -268,7 +268,7 @@ if n2 != 0:
 print(n1)
 print(n2)
 for j in range(n2,n1):
-     with open("/var/www/html/Neutron/Kiel.txt", "a") as file:
+     with open("APTY.txt", "a") as file:
          sline = lines1[j].split()
          if len(sline) == 2:
            year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])

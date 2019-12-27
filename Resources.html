@@ -26,16 +26,6 @@
 
 
 <!-- -->
-<script src="/jsroot/scripts/JSRootCore.js?2d&onload=createGUI"> type="text/javascript"></script>
-
-<script type='text/javascript'>
- var filename = "/SSN/ROOT/SSN.root";
- JSROOT.OpenFile(filename, function(file) {
-   file.ReadObject("Graph;1", function(obj) {
-     JSROOT.draw("drawing", obj, "APL");
-   });
- });
-</script>
 
 
 
@@ -47,7 +37,6 @@
 <!-- ***********************-->
 <!-- ***********************-->
 <!-- ***********************-->
-
 <body>
   <div class="container">
     <div class="col-sm-3">
@@ -63,8 +52,8 @@
           <li><a class="about" href="/SFS.html">Solar Field Strenght</a></li>
           <li><a class="about" href="/Tilt.html">Tilt Angle</a></li>
           <li><a class="about" href="/SolarSmoothed.html">SSN Smoothed & Monthly</a></li>
-          <li><a class="about" href="/Resources.html">Resources</a></li>
-          <li><a class="about" href="/Neutron.html">Neutron Monitor</a></li>
+<li><a class="about" href="/Resources.html">Resources</a></li>         
+ <li><a class="about" href="/Neutron.html">Neutron Monitor</a></li>
         </ul>
       </div>
     </div>
@@ -74,41 +63,19 @@
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<center><h3 style="color:rgb(60, 128, 214);"><b>Solar Spot Number</b></h3></center>
-I dati raccolti sono estratti dal database Smoothed Monthly and Smoothed<br>
-Last updated date: <p id="date"></p> <br>
-<script>
-n =  new Date();
-y = n.getFullYear();
-m = n.getMonth() + 1;
-d = n.getDate();
-document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
-</script>
+<center><h3 style="color:rgb(60, 128, 214);"><b>Resources</b></h3></center>
 
-
+<a class="about" href="/SSN.html">Solar Spot Number</a> (<b>SSN</b>) Data (monthly and daily) are taken from <a href="http://sidc.oma.be/silso/ ">SILSO</a>: World Data Center for the production, preservation and dissemination of the international sunspot number.<br>
+<b>S(t)</b> descibes the mean number of SSN (averaged over a month or day) as a function of time.
 <br><br>
-<center>
-<div id="drawing" style="width:650px; height:400px"></div>
-<script>
-function Tree(){
-    var now = new Date();
-    var month = parseInt(now.getMonth())+1;
-    var path = "SSNTree_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
-    window.location.href="/TREE/Download/"+path;
-}
-function Root(){
-    var now = new Date();
-    var month = parseInt(now.getMonth())+1;
-    var path = "SSN_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
-    window.location.href="/SSN/Download/"+path;
-}
-</script>
 
-<button><type="button"><a onclick="Root();">ROOT File</a></button>
-<button><type="button"><a onclick="Tree();">ROOT Tree</a></button>
+About <a class="about" href="/Tilt.html">Tilt Angle</a> e <a class="about" href="/SFS.html">Solar Polar Field Strenght</a>, data are taken from <a href="http://wso.stanford.edu">Wilkox Solar Observatory</a>.<br>
 
-</center>
-
+<li>Tilt Angle data are updated about every month.</li>
+<li>Solar Polar Field Strength data are updated about every 10 days.</li>
+<br>
+Data about CR fluxes measured by <a class="about" href="/Neutron.html">Neutron Monitor</a> are taken from  <a href="http://www01.nmdb.eu">NMDB Neutron Monitor DataBase</a>.
+The selected stations are: JUNG (Switzerland ), APTY(Russia), KIEL(Germany), KERG(Indian Ocean), OULU(Finland), NEWK(USA), MOSC(Moscow), INVK(Canada).  
 
 
 
@@ -120,6 +87,7 @@ function Root(){
     </div>
   </div>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-
 </body>
+
 </html>
+   
