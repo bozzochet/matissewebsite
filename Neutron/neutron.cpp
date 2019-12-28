@@ -1,4 +1,3 @@
-
 //  lez1.cpp
 //  Created by David Pelosi on 02/10/18.
 #include <iostream>
@@ -23,7 +22,7 @@ using namespace std;
 int main()
 {
  
-  TCanvas *c1 = new TCanvas("TOTAL Graph","titolo Canvas");
+  TCanvas *c1 = new TCanvas("TOTAL GraphSet1","titolo Canvas");
   c1->SetFillColor(0);
     
   //JUNG----
@@ -117,17 +116,83 @@ int main()
   legend->SetX1NDC(0.01);
   legend->SetX2NDC(0.9);
   legend->Draw();
-      
+      TFile ff("/var/www/html/Neutron/ROOT/Neutron.root" , "recreate");
+      ff.cd();
+      k->Write();
+      g->Write();
+      kf->Write();
+      gf->Write();
+      c1->Write();
   //creo file di tipo root dove salvo la canvas contenente il grafico creato
- 
-  TFile ff("/var/www/html/Neutron/ROOT/Neutron.root" , "recreate");
+    
+ //altro set di STAZIONI
+    TCanvas *c2 = new TCanvas("TOTAL GraphSet2","titolo Canvas");
+    c2->SetFillColor(0);
+    
+    //grafico filtrato Notrh
+        
+    //MOSC----------
+    TString nomefilef2 = "/var/www/html/Neutron2/MOSC.txt"; //percorso
+    TGraph *gf2 = new TGraph(nomefilef);
+    gf2->GetXaxis()->SetTitle("year");
+    gf2->GetYaxis()->SetTitle("NM Rate");
+    gf2->GetXaxis()->CenterTitle();
+    gf2->GetYaxis()->CenterTitle();
+    gf2->SetName("MOSC");
+    gf2->SetMarkerColor(kGreen);//Markers...
+    gf2->SetLineColor(kGreen);
+    gf2->SetMarkerStyle(23);
+    gf2->SetMarkerSize(0.7);
+    gf2->SetTitle("MOSC Data");
+      
+      
+      
+    // APTY --
+    TString nomefile2f2 = "/var/www/html/Neutron2/APTY.txt"; //percorso
+    TGraph *kf2 = new TGraph(nomefile2f);
+    kf2->GetXaxis()->SetTitle("year");
+    kf2->GetYaxis()->SetTitle("NM Rate");
+    kf2->GetXaxis()->CenterTitle();
+    kf2->GetYaxis()->CenterTitle();
+    kf2->SetName("APTY");
+    kf2->SetMarkerColor(kAzure); //Markers...
+    kf2->SetLineColor(kAzure);
+    kf2->SetMarkerStyle(23);
+    kf2->SetMarkerSize(0.7);
+    kf2->SetTitle("APTY Data");
+      
+          
+    //create Multigraph with 3 graphs
+      
+    cout<<"Loading...."<<endl;
+    //Dichiaro Canvas
+    c2->cd();
+    TMultiGraph *mg2 = new TMultiGraph();
+
+    mg2->Add(gf2);
+    mg2->Add(kf2);
+    mg2->SetTitle("Neutron Monitor");
+    mg2->Draw("ap");
+    mg2->GetXaxis()->CenterTitle();
+    mg2->GetYaxis()->CenterTitle();
+    mg2->GetXaxis()->SetTitle("year");
+    mg2->GetYaxis()->SetTitle("NM Rate (Hz)");
+    mg2->SetName("Total Graph");
+      
+    TLegend *legend2 = new TLegend(.75,.75,.89,.89);
+    legend2->SetHeader("","C"); // option "C" allows to center the header
+    legend2->AddEntry(kf2,"APTY ","l");
+    legend2->AddEntry(gf2,"MOSC ","l");
+
+    legend2->SetX1NDC(0.01);
+    legend2->SetX2NDC(0.9);
+    legend2->Draw();
+    
   ff.cd();
-  k->Write();
-  g->Write();
-  kf->Write();
-  gf->Write();
-  c1->Write();
+  kf2->Write();
+  gf2->Write();
+  c2->Write();
+    
   ff.Close();
   return 0;
 }
-
