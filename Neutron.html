@@ -41,6 +41,21 @@ file.ReadObject("TOTAL Graph2;1", function(obj) {
        JSROOT.draw("drawing2", obj);
      });
    });
+
+
+var filename = "/FFModel/ForceField.root";
+   JSROOT.OpenFile(filename, function(file) {
+file.ReadObject("FF Model PHI;1", function(obj) {
+       JSROOT.draw("drawing3", obj);
+     });
+   });
+
+var filename = "/FFModel/ForceField.root";
+   JSROOT.OpenFile(filename, function(file) {
+file.ReadObject("FF Model J;1", function(obj) {
+       JSROOT.draw("drawing4", obj);
+     });
+   });
 </script>
 
 
@@ -112,10 +127,32 @@ function Root2(){
     var path = "Neutron2_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
     window.location.href="/Neutron2/Download/"+path;
 }
+
+function RootFF(){
+    var now = new Date();
+    var month = parseInt(now.getMonth())+1;
+    var path = "ForceField_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
+    window.location.href="/FFModel/Download/"+path;
+}
+
 </script>Neutron Monitors Set 1: <b>JUNG</b>,  <b>KIEL</b>,  <b>OULU</b>,  <b>NEWK</b>
 <div id="drawing" style="width:650px; height:400px"></div>
 <button><type="button"><a onclick="Tree();">ROOT Tree</a></button>
 <button><type="button"><a onclick="Root();">ROOT File</a></button>
+<br><br>
+<br><br>
+Descrizione da completare...Force Field Model Plots: PHI Potential  
+<br><br>
+<div id="drawing3" style="width:650px; height:400px"></div>
+<button><type="button"><a onclick="Tree();">ROOT Tree</a></button>
+<button><type="button"><a onclick="RootFF();">FF Model Plots</a></button>
+<br><br>
+Descrizione da completare Force Field Model PlotS: J(E = 1 GeV)
+<br><br>
+<div id="drawing4" style="width:650px; height:400px"></div>
+<button><type="button"><a onclick="Tree();">ROOT Tree</a></button>
+<button><type="button"><a onclick="RootFF();">FF Model Plots</a></button>
+
 <br><br>
 </script>Neutron Monitors Set 2: <b>KERG</b>,  <b>APTY</b>,  <b>INVK</b>,  <b>MOSC</b>
 <div id="drawing2" style="width:650px; height:400px"></div>
