@@ -33,14 +33,14 @@ int main()
   g->GetXaxis()->CenterTitle();
   g->GetYaxis()->CenterTitle();
   g->SetName("Jung");
-  g->SetMarkerColor(kAzure); //Markers...
-  g->SetMarkerStyle(22);
   g->SetLineColor(kAzure);
+  g->SetLineWidth(2);
+  g->SetLineStyle(1);
+  g->SetMarkerColor(kAzure);//Markers...
   g->SetTitle("Jung Data");
-  g->SetMarkerSize(0.7);
+
   
-  //grafico filtrato Notrh
-      
+       
   //Oulu----------
   TString nomefilef = "/var/www/html/Neutron/Oulu.txt"; //percorso
   TGraph *gf = new TGraph(nomefilef);
@@ -49,10 +49,10 @@ int main()
   gf->GetXaxis()->CenterTitle();
   gf->GetYaxis()->CenterTitle();
   gf->SetName("Oulu");
-  gf->SetMarkerColor(kGreen);//Markers...
   gf->SetLineColor(kGreen);
-  gf->SetMarkerStyle(23);
-  gf->SetMarkerSize(0.7);
+  gf->SetLineWidth(2);
+  gf->SetLineStyle(1);
+  gf->SetMarkerColor(kGreen);//Markers...
           
   g->SetTitle("Oulu Data");
     
@@ -64,10 +64,10 @@ int main()
   k->GetXaxis()->CenterTitle();
   k->GetYaxis()->CenterTitle();
   k->SetName("Kiel");
-  k->SetMarkerColor(kMagenta); //Markers...
   k->SetLineColor(kMagenta);
-  k->SetMarkerStyle(23);
-  k->SetMarkerSize(0.7);
+  k->SetLineWidth(2);
+  k->SetLineStyle(1);
+  k->SetMarkerColor(kMagenta);//Markers...
   k->SetTitle("Kiel Data");
   //grafico filtrato sud
     
@@ -80,10 +80,10 @@ int main()
   kf->GetXaxis()->CenterTitle();
   kf->GetYaxis()->CenterTitle();
   kf->SetName("Newk");
-  kf->SetMarkerColor(kOrange+7); //Markers...
   kf->SetLineColor(kOrange+7);
-  kf->SetMarkerStyle(23);
-  kf->SetMarkerSize(0.7);
+  kf->SetLineWidth(2);
+  kf->SetLineStyle(1);
+  kf->SetMarkerColor(kOrange+7);//Markers...
   kf->SetTitle("Newk Data");
     
         
@@ -99,7 +99,7 @@ int main()
 
   mg->Add(gf);
   mg->Add(kf);
-  mg->Draw("ap");
+  mg->Draw("apl");
   mg->GetXaxis()->CenterTitle();
   mg->GetYaxis()->CenterTitle();
   mg->GetXaxis()->SetTitle("year");
@@ -116,77 +116,74 @@ int main()
   legend->SetX1NDC(0.01);
   legend->SetX2NDC(0.9);
   legend->Draw();
-      TFile ff("/var/www/html/Neutron/ROOT/Neutron.root" , "recreate");
-      ff.cd();
-      k->Write();
-      g->Write();
-      kf->Write();
-      gf->Write();
-      c1->Write();
+  TFile ff("/var/www/html/Neutron/ROOT/Neutron.root" , "recreate");
+  ff.cd();
+  k->Write();
+  g->Write();
+  kf->Write();
+  gf->Write();
+  c1->Write();
   //creo file di tipo root dove salvo la canvas contenente il grafico creato
     
- //altro set di STAZIONI
-    TCanvas *c2 = new TCanvas("TOTAL GraphSet2","titolo Canvas");
-    c2->SetFillColor(0);
-    
-    //grafico filtrato Notrh
-        
-    //MOSC----------
-    TString nomefilef2 = "/var/www/html/Neutron2/MOSC.txt"; //percorso
-    TGraph *gf2 = new TGraph(nomefilef);
-    gf2->GetXaxis()->SetTitle("year");
-    gf2->GetYaxis()->SetTitle("NM Rate");
-    gf2->GetXaxis()->CenterTitle();
-    gf2->GetYaxis()->CenterTitle();
-    gf2->SetName("MOSC");
-    gf2->SetMarkerColor(kGreen);//Markers...
-    gf2->SetLineColor(kGreen);
-    gf2->SetMarkerStyle(23);
-    gf2->SetMarkerSize(0.7);
-    gf2->SetTitle("MOSC Data");
+  //altro set di STAZIONI
+  TCanvas *c2 = new TCanvas("TOTAL GraphSet2","titolo Canvas");
+  c2->SetFillColor(0);
+           
+  //MOSC----------
+  TString nomefilef2 = "/var/www/html/Neutron/MOSC.txt"; //percorso
+  TGraph *gf2 = new TGraph(nomefilef);
+  gf2->GetXaxis()->SetTitle("year");
+  gf2->GetYaxis()->SetTitle("NM Rate");
+  gf2->GetXaxis()->CenterTitle();
+  gf2->GetYaxis()->CenterTitle();
+  gf2->SetName("MOSC");
+  gf2->SetLineColor(kAzure);
+  gf2->SetLineWidth(2);
+  gf2->SetLineStyle(1);
+  gf2->SetMarkerColor(kAzure);//Markers...
+  gf2->SetTitle("MOSC Data");
       
       
       
-    // APTY --
-    TString nomefile2f2 = "/var/www/html/Neutron2/APTY.txt"; //percorso
-    TGraph *kf2 = new TGraph(nomefile2f);
-    kf2->GetXaxis()->SetTitle("year");
-    kf2->GetYaxis()->SetTitle("NM Rate");
-    kf2->GetXaxis()->CenterTitle();
-    kf2->GetYaxis()->CenterTitle();
-    kf2->SetName("APTY");
-    kf2->SetMarkerColor(kAzure); //Markers...
-    kf2->SetLineColor(kAzure);
-    kf2->SetMarkerStyle(23);
-    kf2->SetMarkerSize(0.7);
-    kf2->SetTitle("APTY Data");
+  // APTY --
+  TString nomefile2f2 = "/var/www/html/Neutron/APTY.txt"; //percorso
+  TGraph *kf2 = new TGraph(nomefile2f2);
+  kf2->GetXaxis()->SetTitle("year");
+  kf2->GetYaxis()->SetTitle("NM Rate");
+  kf2->GetXaxis()->CenterTitle();
+  kf2->GetYaxis()->CenterTitle();
+  kf2->SetName("APTY");
+  kf2->SetLineColor(kGreen);
+  kf2->SetLineWidth(2);
+  kf2->SetLineStyle(1);
+  kf2->SetMarkerColor(kGreen);//Markers...
+  kf2->SetTitle("APTY Data");
       
           
-    //create Multigraph with 3 graphs
+  //create Multigraph with 3 graphs
       
-    cout<<"Loading...."<<endl;
-    //Dichiaro Canvas
-    c2->cd();
-    TMultiGraph *mg2 = new TMultiGraph();
+  cout<<"Loading...."<<endl;
+  //Dichiaro Canvas
+  c2->cd();
+  TMultiGraph *mg2 = new TMultiGraph();
 
-    mg2->Add(gf2);
-    mg2->Add(kf2);
-    mg2->SetTitle("Neutron Monitor");
-    mg2->Draw("ap");
-    mg2->GetXaxis()->CenterTitle();
-    mg2->GetYaxis()->CenterTitle();
-    mg2->GetXaxis()->SetTitle("year");
-    mg2->GetYaxis()->SetTitle("NM Rate (Hz)");
-    mg2->SetName("Total Graph");
+  mg2->Add(gf2);
+  mg2->Add(kf2);
+  mg2->Draw("apl");
+  mg2->GetXaxis()->CenterTitle();
+  mg2->GetYaxis()->CenterTitle();
+  mg2->GetXaxis()->SetTitle("year");
+  mg2->GetYaxis()->SetTitle("NM Rate (Hz)");
+  mg2->SetName("Total Graph");
       
-    TLegend *legend2 = new TLegend(.75,.75,.89,.89);
-    legend2->SetHeader("","C"); // option "C" allows to center the header
-    legend2->AddEntry(kf2,"APTY ","l");
-    legend2->AddEntry(gf2,"MOSC ","l");
+  TLegend *legend2 = new TLegend(.75,.75,.89,.89);
+  legend2->SetHeader("","C"); // option "C" allows to center the header
+  legend2->AddEntry(kf2,"APTY ","l");
+  legend2->AddEntry(gf2,"MOSC ","l");
 
-    legend2->SetX1NDC(0.01);
-    legend2->SetX2NDC(0.9);
-    legend2->Draw();
+  legend2->SetX1NDC(0.01);
+  legend2->SetX2NDC(0.9);
+  legend2->Draw();
     
   ff.cd();
   kf2->Write();

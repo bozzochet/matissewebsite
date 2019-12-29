@@ -28,48 +28,35 @@
 <script src="/jsroot/scripts/JSRootCore.js?2d&onload=createGUI"> type="text/javascript"></script>
 
 <script type='text/javascript'>
-var filename = "/Neutron/ROOT/Neutron.root";
+var filename = "/FFModelDynamic/ForceFielGEV.root";
    JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("TOTAL GraphSet1;1", function(obj) {
+file.ReadObject("OULU;1", function(obj) {
        JSROOT.draw("drawing", obj);
      });
    });
 
-var filename = "/Neutron/ROOT/Neutron.root";
+var filename = "/FFModelDynamic/ForceFielGEV.root";
    JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("TOTAL GraphSet2;1", function(obj) {
+file.ReadObject("NEWK;1", function(obj) {
        JSROOT.draw("drawing2", obj);
      });
    });
 
 
-var filename = "/FFModel/ForceField.root";
+var filename = "/FFModelDynamic/ForceFielGEV.root";
    JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("FF Model PHI_Set1;1", function(obj) {
+file.ReadObject("KIEL;1", function(obj) {
        JSROOT.draw("drawing3", obj);
      });
    });
 
-var filename = "/FFModel/ForceField.root";
+var filename = "/FFModelDynamic/ForceFielGEV.root";
    JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("FF Model J_Set1;1", function(obj) {
+file.ReadObject("JUNG;1", function(obj) {
        JSROOT.draw("drawing4", obj);
      });
    });
 
-var filename = "/FFModel/ForceField.root";
-   JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("FF Model PHI_Set2;1", function(obj) {
-       JSROOT.draw("drawing5", obj);
-     });
-   });
-
-var filename = "/FFModel/ForceField.root";
-   JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("FF Model J_Set2;1", function(obj) {
-       JSROOT.draw("drawing6", obj);
-     });
-   });
 </script>
 
 
@@ -149,28 +136,48 @@ function RootFF(){
     window.location.href="/FFModel/Download/"+path;
 }
 
-</script>Neutron Monitors Set 1: <b>JUNG</b>,  <b>KIEL</b>,  <b>OULU</b>,  <b>NEWK</b>
+</script>Neutron Monitors Set 1 J(t) Force-Field Model with different E  : <b>JUNG</b>,  <b>KIEL</b>,  <b>OULU</b>,  <b>NEWK</b>
 <div id="drawing" style="width:650px; height:400px"></div>
-<button><type="button"><a onclick="Tree();">ROOT Tree</a></button>
-<button><type="button"><a onclick="Root();">ROOT File</a></button>
 <br><br>
-<br><br>
-Descrizione da completare...Force Field Model Plots: PHI Potential  
+<div id="drawing2" style="width:650px; height:400px"></div>
 <br><br>
 <div id="drawing3" style="width:650px; height:400px"></div>
-<button><type="button"><a href="/FFModel/model.cpp">FF Model Code</a></button>
-<button><type="button"><a onclick="RootFF();">FF Model Plots</a></button>
-<br><br>
-Descrizione da completare Force Field Model PlotS: J(E = 1 GeV)
 <br><br>
 <div id="drawing4" style="width:650px; height:400px"></div>
-<button><type="button"><a href="/FFModel/model.cpp">FF Model Code </a></button>
-<button><type="button"><a onclick="RootFF();">FF Model Plots</a></button>
-
+<br><br>
+<button><type="button"><a href="/FFModelDynamic/ForceFielGEV.root">ROOT File </a></button>
 <br><br>
 
-<!-- set Energy --> 
-<button><type="button"><a href="/NeutronDynamic.html">More Plots different  Energies[GeV] </a></button>
+<!-- TEST DYNAMIC BUTTON
+<p>Click the button to demonstrate the prompt box.</p>
+
+<button onclick="test()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+  var person = prompt("Please enter your name", "Harry Potter");
+  if (person != null) {
+    document.getElementById("demo").innerHTML =
+    "Hello " + person + "! How are you today?";
+  }
+}
+
+
+
+function test() {
+  var person = prompt("Please enter your name", "Harry Potter");
+  if (person != null) {
+    document.getElementById("demo").innerHTML =
+    "Hello " + person + "! How are you today?";
+  }
+   var fso = new ActiveXObject("Scripting.FileSystemObject");
+    var fh = fso.CreateTextFile("/FFModelDynamic/Test.txt", 8, true);
+    fh.WriteLine("foo");
+    fh.Close();
+}
+</script>
 <!--
 </script>Neutron Monitors Set 2: <b>APTY</b>, <b>MOSC</b>
 <div id="drawing2" style="width:650px; height:400px"></div>
