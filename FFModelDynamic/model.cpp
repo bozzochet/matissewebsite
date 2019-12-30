@@ -23,6 +23,20 @@
 using namespace std;
 //---------------------------------------------------------dichiaro le funzioni
 
+//global struct
+typedef struct NeutronMonitor {
+  string name;
+  double A;
+  double B;
+  double C;
+    
+} NeutronMonitor;
+
+
+NeutronMonitor NM[6]; // global array
+
+
+
 void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
 {
     
@@ -36,20 +50,33 @@ void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
   }
     
   file.close();
+ }
 
-}
 
 
-void GetModulationPotential(int i,vector<double> &phi,vector<double> &rate,  vector< vector <double>> &parameters) //get Phi from NM counts
+void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rate)
 {
-  double A = parameters[i][0] ;
-  double B = parameters[i][1] ;
-  double C =  parameters[i][2];
-  cout<<"A-> "<<A<<endl;
-  cout<<"b-> "<<B<<endl;
-  cout<<"c-> "<<C<<endl;
-  for (int i=0; i<rate.size(); i++) {
-    phi.push_back(A + B*rate[i] + C*rate[i]*rate[i]);
+  NM[0].name = "Oulu"; NM[0].A = 7609.0; NM[0].B = -110.5; NM[0].C = 0.41;
+  NM[1].name = "Newk"; NM[1].A = 6907.0; NM[1].B = -103.0; NM[1].C = 0.39;
+  NM[2].name = "Jung"; NM[2].A = 10668; NM[2].B = -112.7; NM[2].C = 0.31;
+  NM[3].name = "Kiel"; NM[3].A = 6580; NM[3].B = -54.5; NM[3].C = 0.11;
+  NM[4].name = "Mosc"; NM[4].A = 7979; NM[4].B = -53.9; NM[4].C = 0.09;
+  NM[5].name = "Apty"; NM[5].A = 6849; NM[5].B = -57.9; NM[5].C = 0.12;
+    
+  double A;
+  double B;
+  double C;
+    
+  for (int i =0; i<6; i++) {  // 6 numero di stazioni definite
+    if (NM[i].name == stat) {
+      A = NM[i].A;B = NM[i].B; C = NM[i].C;
+      cout<<"A-> "<<A<<endl;
+      cout<<"b-> "<<B<<endl;
+      cout<<"c-> "<<C<<endl;
+      for (int i=0; i<rate.size(); i++) {
+	phi.push_back(A + B*rate[i] + C*rate[i]*rate[i]);
+      }
+    }
   }
 }
 
@@ -134,154 +161,125 @@ void GetProtonMODvsEkn(double Ekn /*[GeV/n]*/, vector<double> &phi, vector<doubl
 }
 
 
-int main() {
-    
-vector< vector <double>> parameters;
-vector <double> abc;
+int main()
+{
+  int color[6] = {632,416,860,900,860,432};
+  vector<double> date;
+  vector<double> rate;
+  vector<double> phi;
+  vector<double> JMOD;
+  vector<double> JIS;
+  vector<double> EIS;
 
-abc.push_back(7609.0); abc.push_back(-110.5); abc.push_back( 0.41); parameters.push_back(abc); abc.clear(); //parameter Oulu
-abc.push_back(6907.0); abc.push_back(-103.0); abc.push_back( 0.39); parameters.push_back(abc);abc.clear(); //parameter Newk
-abc.push_back(10668); abc.push_back(-112.7); abc.push_back( 0.31); parameters.push_back(abc);abc.clear();//parameter Jung
-abc.push_back(6580); abc.push_back(-54.5); abc.push_back( 0.11); parameters.push_back(abc);abc.clear();//parameter kiel
-abc.push_back(7979); abc.push_back(-53.9); abc.push_back( 0.09); parameters.push_back(abc);abc.clear();//parameter mosc
-abc.push_back(6849); abc.push_back(-57.9); abc.push_back( 0.12); parameters.push_back(abc);abc.clear();//parameter apty
-
-//PLOT
-  
-//multiplot all phi from different station
-TFile ff("/var/www/html/FFModelDynamic/ForceFieldGEV.root" , "recreate");
-ff.cd();
+  TFile ff("/var/www/html/FFModelDynamic/ForceFieldGEV.root" , "recreate");
+  ff.cd();
     
-TString stations[6] = {"Oulu","Newk", "Jung","Kiel","MOSC", "APTY"};
-string stats[6] = {"Oulu","Newk", "Jung","Kiel", "MOSC", "APTY"};
-double energy [3] = {1,10,0.1};
-TString strenergy [3] = {"E = 1 [GeV]","E = 10 [GeV]","E = 0.1 [GeV]"};
-// int color[6] = {1,2,4,8,4,8};
-    
-/*enum EColor { kWhite =0,   kBlack =1,   kGray=920,
-    61               kRed   =632, kGreen =416, kBlue=600, kYellow=400, kMagenta=616, kCyan=432,
-    62               kOrange=800, kSpring=820, kTeal=840, kAzure =860, kViolet =880, kPink=900 };*/
-int color[6] = {632,416,860,900,860,432};
-//Color_t color[6] = {"kGreen","kOrange0","kMagenta","kGreen","kAzure","kOrange" };
-vector<double> date;
-vector<double> rate;
-vector<double> phi;
-vector<double> JMOD;
-vector<double> JIS;
-vector<double> EIS;
-    
-//multigraph
-//multigraph
-TCanvas *c[4];
-TLegend *legend[4]; // = new TLegend(.75,.75,.89,.89);
-TMultiGraph *mg[4];// = new TMultiGraph();
-    
-      
-for (int i = 0; i<4; i++) {
-  mg[i]= new TMultiGraph();
-  c[i]= new TCanvas();
-  legend[i] = new TLegend(.75,.75,.89,.89);
- }
-      
-for (int i=0; i<4; i++) {
-  legend[i]->SetHeader("","C"); // option "C" allows to center the header
-  legend[i]->SetX1NDC(0.01);
-  legend[i]->SetX2NDC(0.9);
- }
-
-    
-for (int j=0; j<4; j++) {
-  string s = "/var/www/html/Neutron/" + stats[j]+".txt";
-  SetDataNM(rate,date,s); // vector contiene tutti i rate
-  GetModulationPotential(j,phi,rate,parameters); // vector phi aggioranato
-    
-  for (int i=0; i<3; i++) {
-    double Ekn = energy[i]; //E GeV
-    
-    SetEIS(Ekn,EIS, phi );
-    GetProtonLISvsEkn(JIS, EIS);
-    GetProtonMODvsEkn( Ekn /*[GeV/n]*/, phi, EIS, JIS, JMOD);
-    ofstream myfile,myfile2;
-    myfile.open("/var/www/html/FFModel/PHI.txt");
-    for (int i=0; i<phi.size(); i++) {
-      myfile<<date[i]<<" "<<phi[i]<<endl;
+  // importare la lista dei NM
+  for (int y = 1 ; y<3; y++) {
+    vector<string> stats;
+    vector<TString> stations;
+    //TString stations[6] = {"Oulu","Newk", "Jung",/*inizio set2*/"Kiel","MOSC", "APTY"};
+    //string stats[6] = {"Oulu","Newk", "Jung","Kiel", "MOSC", "APTY"};
+    ifstream set;
+    stringstream ss;
+    ss<<y;
+    string s;
+    ss>>s;
+    string path ="/var/www/html/FFModel/NM_Set" + s + ".txt";
+    cout<<path<<endl;
+     
+    set.open(path);
+    string sx;
+    while (!set.eof()) {
+      set>>sx>>ws;
+      stats.push_back(sx);
+      stations.push_back(sx);
     }
-    myfile.close();
-    myfile2.open ("/var/www/html/FFModel/JMOD.txt");
-    for (int i=0; i<phi.size(); i++) {
-      myfile2<<date[i]<<" "<<JMOD[i]<<endl;
-    }
-    myfile2.close();       
-  TGraph *f = new TGraph("/var/www/html/FFModel/JMOD.txt");
-  f->GetXaxis()->SetTitle("year");
-  f->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
-  TString p = "Modulated Flux J " + strenergy[i]+  "GeV) from " + stations[j]+" Data";
-  f->SetTitle(p);
-  f->GetXaxis()->CenterTitle();
-  f->GetYaxis()->CenterTitle();
-  f->SetName("J"+stations[j] +" "+ strenergy[i]);
-  f->SetMarkerColor(color[i]);//Markers...
-  f->SetLineColor(color[i]);
-  f->SetLineWidth(2);
-  f->SetLineStyle(1);
-  f->Write(); //salvo nel file root
+    
+    
+    
+    double energy [3] = {1,10,0.1};
+    TString strenergy [3] = {"E = 1 [GeV]","E = 10 [GeV]","E = 0.1 [GeV]"};
+
+            
+    for (int j=0; j<stats.size(); j++) {
+      ff.cd();
+ string s = "/var/www/html/Neutron/"+
+   stats[j]+".txt";
+ SetDataNM(rate,date,s); // vector contiene tutti i rate
+ GetModulationPotential(stats[j],phi,rate); // vector phi aggiornato
+
+ TCanvas *c = new TCanvas("TOTAL Graph","titolo Canvas");
+ TLegend *legend = new TLegend(.75,.75,.89,.89);
+ legend->SetHeader("","C");
+ legend->SetX1NDC(0.01);
+ legend->SetX2NDC(0.9);
+ TMultiGraph *mg = new TMultiGraph();
+    
+ //for sulle energie
+ for (int i=0; i<3; i++) {
         
-
-  switch (j) {
-  case 0:
-    mg[j]->Add(f);
-    legend[j]->AddEntry(f,strenergy[i],"l");
-    break;
-  case 1:
-    mg[j]->Add(f);
-    legend[j]->AddEntry(f,strenergy[i],"l");
-    break;
-  case 2:
-    mg[j]->Add(f);
-    legend[j]->AddEntry(f,strenergy[i],"l");
-    break;
-  case 3:
-    mg[j]->Add(f);
-    legend[j]->AddEntry(f,strenergy[i],"l");
-    break;
-  default:
-    break;
-  }
-
-  JMOD.clear();
-  JIS.clear();
-  EIS.clear();
-}
-date.clear();
-rate.clear();
-phi.clear();
-
-    
-}
-    
-//inseriamo titoli e legenda
-    
-for (int i =0; i<4; i++) {
-  c[i]->SetName("J(t) "+ stations[i] );
-  c[i]->cd();
-  mg[i]->SetTitle("J(t) "+ stations[i]);
-  mg[i]->Draw("apl");
-  mg[i]->GetXaxis()->CenterTitle();
-  mg[i]->GetYaxis()->CenterTitle();
-  mg[i]->GetXaxis()->SetTitle("year");
-  mg[i]->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
-  mg[i]->SetName("J TOTAL");
-  legend[i]->Draw();
- }
-             
-    
+   double Ekn = energy[i]; //E GeV
+   SetEIS(Ekn,EIS, phi );
+   GetProtonLISvsEkn(JIS, EIS);
+   GetProtonMODvsEkn( Ekn /*[GeV/n]*/, phi, EIS, JIS, JMOD);
+   ofstream myfile,myfile2;
+   myfile.open("/var/www/html/FFModel/PHI.txt");
+   for (int i=0; i<phi.size(); i++) {
+     myfile<<date[i]<<" "<<phi[i]<<endl;
+   }
+   myfile.close();
+   myfile2.open ("/var/www/html/FFModel/JMOD.txt");
+   for (int i=0; i<phi.size(); i++) {
+     myfile2<<date[i]<<" "<<JMOD[i]<<endl;
+   }
+   myfile2.close();
+        
+   TGraph *f = new TGraph("/var/www/html/FFModel/JMOD.txt");
+   f->GetXaxis()->SetTitle("year");
+   f->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
+   TString p = "Modulated Flux J " + strenergy[i]+  " from " + stations[j]+" Data";
+   f->SetTitle(p);
+   f->GetXaxis()->CenterTitle();
+   f->GetYaxis()->CenterTitle();
+   f->SetName("J"+stations[j] +" "+ strenergy[i]);
+   f->SetMarkerColor(color[i]);//Markers...
+   f->SetLineColor(color[i]);
+   f->SetLineWidth(2);
+   f->SetLineStyle(1);
+   f->Write(); //salvo nel file root
+         
+   mg->Add(f);
+   legend->AddEntry(f,strenergy[i],"l");
    
-
-ff.cd();
-for (int i=0; i<4; i++) {
-  c[i]->Write();
+   JMOD.clear();
+   JIS.clear();
+   EIS.clear();
  }
+        
+ c->SetName("J(t) "+ stations[j] );
+ c->SetTitle("J(t) "+ stations[j] );
+ c->cd();
+ mg->SetTitle("J(t) "+stations[j] );
+ mg->Draw("apl");
+ mg->GetXaxis()->CenterTitle();
+ mg->GetYaxis()->CenterTitle();
+ mg->GetXaxis()->SetTitle("year");
+ mg->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
+ mg->SetName("J TOTAL");
+ legend->Draw();
 
-ff.Close();
+ ff.cd();
+ c->Write();
+    
+ date.clear();
+ rate.clear();
+ phi.clear();
 
+    }
+    
+    
+  }
+  ff.Close();
+  return 0;
 }

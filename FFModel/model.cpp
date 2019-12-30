@@ -1,5 +1,5 @@
 //  lez1.cpp
-//  Created by David Pelosi on 02/10/18.
+//  Created by David Pelosi
 #include <iostream>
 #include <iomanip>
 #include <TAxis.h>
@@ -19,12 +19,25 @@
 #include <TVirtualPad.h>
 #include <fstream>
 #include <sstream>
+#include <string>
 using namespace std;
 //---------------------------------------------------------dichiaro le funzioni
 
+//global struct
+typedef struct NeutronMonitor {
+  string name;
+  double A;
+  double B;
+  double C;
+    
+} NeutronMonitor;
+
+
+NeutronMonitor NM[6]; // global array 6 numero di stazioni definite
+
+
 void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
 {
-    
   ifstream file;
   file.open(s);
   double dat, hz;
@@ -39,16 +52,27 @@ void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
 
 
 
-void GetModulationPotential(int i,vector<double> &phi,vector<double> &rate,  vector< vector <double>> &parameters) //get Phi from NM counts
+void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rate)
 {
-  double A = parameters[i][0] ;
-  double B = parameters[i][1] ;
-  double C =  parameters[i][2];
-  cout<<"A-> "<<A<<endl;
-  cout<<"b-> "<<B<<endl;
-  cout<<"c-> "<<C<<endl;
-  for (int i=0; i<rate.size(); i++) {
-    phi.push_back(A + B*rate[i] + C*rate[i]*rate[i]);
+  //definisco i parametri
+  NM[0].name = "Oulu"; NM[0].A = 7609.0; NM[0].B = -110.5; NM[0].C = 0.41;
+  NM[1].name = "Newk"; NM[1].A = 6907.0; NM[1].B = -103.0; NM[1].C = 0.39;
+  NM[2].name = "Jung"; NM[2].A = 10668; NM[2].B = -112.7; NM[2].C = 0.31;
+  NM[3].name = "Kiel"; NM[3].A = 6580; NM[3].B = -54.5; NM[3].C = 0.11;
+  NM[4].name = "Mosc"; NM[4].A = 7979; NM[4].B = -53.9; NM[4].C = 0.09;
+  NM[5].name = "Apty"; NM[5].A = 6849; NM[5].B = -57.9; NM[5].C = 0.12;
+    
+  double A;
+  double B;
+  double C;
+    
+  for (int i =0; i<6; i++) {  // 6 numero di stazioni definite
+    if (NM[i].name == stat) {
+      A = NM[i].A;B = NM[i].B; C = NM[i].C;
+      for (int i=0; i<rate.size(); i++) {
+	phi.push_back(A + B*rate[i] + C*rate[i]*rate[i]);
+      }
+    }
   }
 }
 
@@ -58,7 +82,7 @@ void SetEIS(double Ekn, vector<double> &EIS, vector<double> &phi ){  // EIS(t) p
   double A= 1.;
     
   for (int i=0; i<phi.size(); i++) {
-    // PHI in GV [rigidity loss] prima era in MV (il grafico in MV)
+    // PHI in GV [rigidity loss] prima era in MV (il graifico in MV)
     EIS.push_back(Ekn + (Z/A)*(phi[i]*1.e-3));
   }
 }
@@ -97,6 +121,8 @@ void GetProtonLISvsEkn(vector<double> &JIS, vector<double> &EIS)
     double HighR= TMath::Power(1.+ TMath::Power(  (R/Rb1)*TMath::Power(1.+ TMath::Power(R/Rb2, DG2/S2), S2) , DG1/S1 ), S1);
 
     double LIS_RIG =  Norm*LowR*HighR; // rigidity flux J(R) [GV^-1 m^-2 s^-1 sr^-1]
+    // --- convert from rigidity to kinetic energy (per nucleon) ---
+    // double dEdR = (pZ/pA)*(pZ/pA)*R/sqrt((pZ/pA)*(pZ/pA)*(R*R)+Mp*Mp); // jacobian dE/dR
     double dRdE= (pA/pZ)*(Mp + EIS[i])/sqrt(EIS[i]*EIS[i] + 2.*Mp*EIS[i]); // Jacobian dR/dE
     double LIS_EKN = dRdE*LIS_RIG; // kinetic flux J(E) [(GeV/n)^-1 m^-2 s^-1 sr^-1]
 
@@ -117,6 +143,7 @@ void GetProtonMODvsEkn(double Ekn /*[GeV/n]*/, vector<double> &phi, vector<doubl
     double P2=   (E*A + Mp*A)*(E*A + Mp*A) - (Mp*A)*(Mp*A); // MOM AT EARTH
     double PIS2= (EIS[i]*A + Mp*A)*(EIS[i]*A + Mp*A) - (Mp*A)*(Mp*A); // MOM INTERSTELLAR
     double SP= P2/PIS2; // RATIO OF SQUARED MOMENTA = RATIO OF SQUARED RIGIDITIES
+      
     if (phi[i] <= 1.0 ) {
       JMOD.push_back(0);
     }
@@ -126,31 +153,13 @@ void GetProtonMODvsEkn(double Ekn /*[GeV/n]*/, vector<double> &phi, vector<doubl
 
 }
 
-
 int main()
 {
-     
+
     
   double Ekn = 1.0; //1 GeV
-  //Set Parameter
-  vector< vector <double>> parameters;
-  vector <double> abc;
-
-  abc.push_back(7609.0); abc.push_back(-110.5); abc.push_back( 0.41); parameters.push_back(abc); abc.clear(); //parameter Oulu
-  abc.push_back(6907.0); abc.push_back(-103.0); abc.push_back( 0.39); parameters.push_back(abc);abc.clear(); //parameter Newk
-  abc.push_back(10668); abc.push_back(-112.7); abc.push_back( 0.31); parameters.push_back(abc);abc.clear();//parameter Jung
-  abc.push_back(6580); abc.push_back(-54.5); abc.push_back( 0.11); parameters.push_back(abc);abc.clear();//parameter kiel
-  abc.push_back(7979); abc.push_back(-53.9); abc.push_back( 0.09); parameters.push_back(abc);abc.clear();//parameter mosc
-  abc.push_back(6849); abc.push_back(-57.9); abc.push_back( 0.12); parameters.push_back(abc);abc.clear();//parameter apty
-
   //PLOT
-  
-  //multiplot all phi from different station
-  TFile ff("/var/www/html/FFModel/ForceFieldARRAY.root" , "recreate");
-  ff.cd();
-  TString stations[6] = {"Oulu","Newk", "Jung",/*inizio set2*/"Kiel","MOSC", "APTY"};
-  string stats[6] = {"Oulu","Newk", "Jung","Kiel", "MOSC", "APTY"};
-  int color[6] = {416,807,860,616,4,8};
+  int color[6] = {416,807,860,616,1,2};
   vector<double> date;
   vector<double> rate;
   vector<double> phi;
@@ -158,146 +167,155 @@ int main()
   vector<double> JIS;
   vector<double> EIS;
     
-  //multigraph J(t) e phi(t) dai 2 set di stazioni
-  TCanvas *c[4];
-  TLegend *legend[4];
-  TMultiGraph *mg[4];
+  //multiplot all phi from different station
+  TFile ff("/var/www/html/FFModel/ForceFieldARRAY.root" , "recreate");
+  ff.cd();
+    
+  // importare la lista dei NM
+  for (int y = 1 ; y<3; y++) {
+    vector<string> stats;
+    vector<TString> stations;
+
+    ifstream set;
+    stringstream ss;
+    ss<<y;
+    string s;
+    ss>>s;
+    string path ="/var/www/html/FFModel/NM_Set" + s + ".txt";
+    cout<<path<<endl;
+ 
+    set.open(path);
+    string sx;
+    while (!set.eof()) {
+      set>>sx>>ws;
+      stats.push_back(sx);
+      stations.push_back(sx);
+    }
   
-    
-  for (int i = 0; i<4; i++) {
-    mg[i]= new TMultiGraph();
-    c[i]= new TCanvas();
-    legend[i] = new TLegend(.75,.75,.89,.89);
-  }
-    
-  for (int i=0; i<4; i++) {
-    legend[i]->SetHeader("","C"); // option "C" allows to center the header
-    legend[i]->SetX1NDC(0.01);
-    legend[i]->SetX2NDC(0.9);
-  }
-
-
-    
-  for (int i=0; i<6; i++) {
-    string s = "/var/www/html/Neutron/" + stats[i]+".txt";
-    SetDataNM(rate,date,s); // vector contiene tutti i rate
-    cout<<s<<endl;
-    GetModulationPotential(i,phi,rate,parameters); // vector phi aggioranato
-    SetEIS(Ekn,EIS, phi );
-    GetProtonLISvsEkn(JIS, EIS);
-    GetProtonMODvsEkn( Ekn /*[GeV/n]*/, phi, EIS, JIS, JMOD);
-
-    ofstream myfile,myfile2;
-    myfile.open("/var/www/html/FFModel/PHI.txt");
-    for (int i=0; i<phi.size(); i++) {
-      myfile<<date[i]<<" "<<phi[i]<<endl;
+    //lista delle stazioni completa
+          
+    //multigraph
+    TCanvas *c[2];
+    TLegend *legend[2];
+    TMultiGraph *mg[2];    
+          
+    for (int i = 0; i<2; i++) {
+      mg[i]= new TMultiGraph();
+      c[i]= new TCanvas();
+      legend[i] = new TLegend(.75,.75,.89,.89);
     }
-    myfile.close();
-    myfile2.open ("/var/www/html/FFModel/JMOD.txt");
-    for (int i=0; i<phi.size(); i++) {
-      myfile2<<date[i]<<" "<<JMOD[i]<<endl;
+          
+    for (int i=0; i<2; i++) {
+      legend[i]->SetHeader("","C"); // option "C" allows to center the header
+      legend[i]->SetX1NDC(0.01);
+      legend[i]->SetX2NDC(0.9);
     }
-    myfile2.close();
-        
-        
-    TGraph *f = new TGraph("/var/www/html/FFModel/JMOD.txt");
-    f->GetXaxis()->SetTitle("year");
-    f->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
-    TString p = "Modulated Flux J(E = 1 GeV) from " + stations[i]+" Data";
-    f->SetTitle(p);
-    f->GetXaxis()->CenterTitle();
-    f->GetYaxis()->CenterTitle();
-    f->SetName("J"+stations[i]);
-    f->SetMarkerColor(color[i]);//Markers...
-    f->SetLineColor(color[i]);
-    f->SetLineWidth(2);
-    f->SetLineStyle(1);
-    f->Write();
-        
-        
-    TGraph *gf = new TGraph("/var/www/html/FFModel/PHI.txt");
-    gf->GetXaxis()->SetTitle("year");
-    gf->GetYaxis()->SetTitle("#phi [MV]");
-    TString p2 = "Modulated Potential #phi from " + stations[i]+" Data";
-    gf->SetTitle(p2);
-    gf->GetXaxis()->CenterTitle();
-    gf->GetYaxis()->CenterTitle();
-    gf->SetName("phi"+stations[i]);
-    gf->SetMarkerColor(color[i]);//Markers...
-    gf->SetLineColor(color[i]);
-    gf->SetLineWidth(2);
-    gf->SetLineStyle(1);
-    gf->Write();
-        
-    //devo riempire i multigraph
 
-    if (i<4) { //sono nel set 1
+
+          
+    for (int i=0; i<stats.size(); i++) {
+      string s = "/var/www/html/Neutron/" + stats[i]+".txt";
+      cout<<s<<endl;
+      SetDataNM(rate,date,s); // vector contiene tutti i rate
+      GetModulationPotential(stats[i],phi,rate); 
+      SetEIS(Ekn,EIS, phi );
+      GetProtonLISvsEkn(JIS, EIS);
+      GetProtonMODvsEkn( Ekn /*[GeV/n]*/, phi, EIS, JIS, JMOD);
+      //creazione grafici
+      ofstream myfile,myfile2;
+      myfile.open("/var/www/html/FFModel/PHI.txt");
+      for (int i=0; i<phi.size(); i++) {
+	myfile<<date[i]<<" "<<phi[i]<<endl;
+      }
+      myfile.close();
+      myfile2.open ("/var/www/html/FFModel/JMOD.txt");
+      for (int i=0; i<phi.size(); i++) {
+	myfile2<<date[i]<<" "<<JMOD[i]<<endl;
+      }
+      myfile2.close();
+
+              
+              
+      TGraph *f = new TGraph("/var/www/html/FFModel/JMOD.txt");
+      f->GetXaxis()->SetTitle("year");
+      f->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
+      TString p = "Modulated Flux J(E = 1 GeV) from " + stations[i]+" Data";
+      f->SetTitle(p);
+      f->GetXaxis()->CenterTitle();
+      f->GetYaxis()->CenterTitle();
+      f->SetName("J"+stations[i]);
+      f->SetMarkerColor(color[i]);//Markers...
+      f->SetLineColor(color[i]);
+      f->SetLineWidth(2);
+      f->SetLineStyle(1);
+      f->Write();
+              
+              
+      TGraph *gf = new TGraph("/var/www/html/FFModel/PHI.txt");
+      gf->GetXaxis()->SetTitle("year");
+      gf->GetYaxis()->SetTitle("#phi [MV]");
+      TString p2 = "Modulated Potential #phi from " + stations[i]+" Data";
+      gf->SetTitle(p2);
+      gf->GetXaxis()->CenterTitle();
+      gf->GetYaxis()->CenterTitle();
+      gf->SetName("phi"+stations[i]);
+      gf->SetMarkerColor(color[i]);//Markers...
+      gf->SetLineColor(color[i]);
+      gf->SetLineWidth(2);
+      gf->SetLineStyle(1);
+      gf->Write();
+              
+      //devo riempire i multigraph
+      
+      
       mg[0]->Add(gf);
       legend[0]->AddEntry(gf,stations[i],"l");
-      mg[2]->Add(f);
-      legend[2]->AddEntry(f,stations[i],"l");
+    
+      mg[1]->Add(f);
+      legend[1]->AddEntry(f,stations[i],"l");
+                  
+        
+          
+      date.clear();
+      rate.clear();
+      phi.clear();
+      JMOD.clear();
+      JIS.clear();
+      EIS.clear();
+    }        
+          
+      c[0]->SetName("FF Model PHI Set");
+      c[0]->cd();
+      mg[0]->SetTitle("#phi Modulated potential");
+      mg[0]->Draw("apl");
+      mg[0]->GetXaxis()->CenterTitle();
+      mg[0]->GetYaxis()->CenterTitle();
+      mg[0]->GetXaxis()->SetTitle("year");
+      mg[0]->GetYaxis()->SetTitle("#phi [MV]");
+      mg[0]->SetName("phi TOTAL");
+      legend[0]->Draw();
             
-    }
-    else { //set2
-      mg[1]->Add(gf);
-      legend[1]->AddEntry(gf,stations[i],"l");
-      mg[3]->Add(f);
-      legend[3]->AddEntry(f,stations[i],"l");
-            
-    }
+      c[1]->SetName("FF Model J Set");
+      c[1]->cd();
+      mg[1]->SetTitle("J(E = 1 GeV) Modulated Flux");
+      mg[1]->Draw("apl");
+      mg[1]->GetXaxis()->CenterTitle();
+      mg[1]->GetYaxis()->CenterTitle();
+      mg[1]->GetXaxis()->SetTitle("year");
+      mg[1]->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
+      mg[1]->SetName("J TOTAL");
+      legend[1]->Draw();
+              
     
-    date.clear();
-    rate.clear();
-    phi.clear();
-    JMOD.clear();
-    JIS.clear();
-    EIS.clear();
-
-  }
+           stats.clear(); //pronto per nuovo set
+           stations.clear(); //pronto per nuovo set
+           ff.cd();
+           for (int i=0; i<2; i++) {
+              c[i]->Write();
+           }    
     
-
-    
-  TString set[2] = {"Set1","Set2"};
-  int k=0;
-  for (int i =0; i<4; i++) {
-    if (i<2) {
-      c[i]->SetName("FF Model PHI "+ set[k] );
-      k++;
-      c[i]->cd();
-      mg[i]->SetTitle("#phi Modulated potential");
-      mg[i]->Draw("apl");
-      mg[i]->GetXaxis()->CenterTitle();
-      mg[i]->GetYaxis()->CenterTitle();
-      mg[i]->GetXaxis()->SetTitle("year");
-      mg[i]->GetYaxis()->SetTitle("#phi [MV]");
-      mg[i]->SetName("phi TOTAL");
-      legend[i]->Draw();
-    }
-
-    else {
-      c[i]->SetName("FF Model J "+ set[k] );
-      k++;
-      c[i]->cd();
-      mg[i]->SetTitle("J(E = 1 GeV) Modulated Flux");
-      mg[i]->Draw("apl");
-      mg[i]->GetXaxis()->CenterTitle();
-      mg[i]->GetYaxis()->CenterTitle();
-      mg[i]->GetXaxis()->SetTitle("year");
-      mg[i]->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
-      mg[i]->SetName("J TOTAL");
-      legend[i]->Draw();
-    }
-    k=0;
-  }
-       
-      
-      
-  ff.cd();
-  for (int i=0; i<4; i++) {
-    c[i]->Write();
   }
 
-  ff.Close();
-      
-  //end program
-}
+ff.Close();
+
+}    //end program
