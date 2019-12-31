@@ -5,4 +5,4 @@ import time
 
 shutil.rmtree("Download")
 os.mkdir("Download")
-shutil.copy("ForceField.root",time.strftime('Download/ForceField_%m-%d-%Y.root'))
+shutil.copy("ForceFieldARRAY.root",time.strftime('Download/ForceField_%m-%d-%Y.root'))

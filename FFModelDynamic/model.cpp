@@ -33,7 +33,7 @@ typedef struct NeutronMonitor {
 } NeutronMonitor;
 
 
-NeutronMonitor NM[6]; // global array
+NeutronMonitor NM[8]; // global array
 
 
 
@@ -56,18 +56,19 @@ void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
 
 void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rate)
 {
-  NM[0].name = "Oulu"; NM[0].A = 7609.0; NM[0].B = -110.5; NM[0].C = 0.41;
-  NM[1].name = "Newk"; NM[1].A = 6907.0; NM[1].B = -103.0; NM[1].C = 0.39;
-  NM[2].name = "Jung"; NM[2].A = 10668; NM[2].B = -112.7; NM[2].C = 0.31;
-  NM[3].name = "Kiel"; NM[3].A = 6580; NM[3].B = -54.5; NM[3].C = 0.11;
-  NM[4].name = "Mosc"; NM[4].A = 7979; NM[4].B = -53.9; NM[4].C = 0.09;
-  NM[5].name = "Apty"; NM[5].A = 6849; NM[5].B = -57.9; NM[5].C = 0.12;
-    
+  NM[0].name = "OULU"; NM[0].A = 7609.0; NM[0].B = -110.5; NM[0].C = 0.41;
+  NM[1].name = "NEWK"; NM[1].A = 6907.0; NM[1].B = -103.0; NM[1].C = 0.39;
+  NM[2].name = "JUNG"; NM[2].A = 10668; NM[2].B = -112.7; NM[2].C = 0.31;
+  NM[3].name = "KIEL"; NM[3].A = 6580; NM[3].B = -54.5; NM[3].C = 0.11;
+  NM[4].name = "MOSC"; NM[4].A = 7979; NM[4].B = -53.9; NM[4].C = 0.09;
+  NM[5].name = "APTY"; NM[5].A = 6849; NM[5].B = -57.9; NM[5].C = 0.12;
+  NM[6].name = "ROME"; NM[6].A = 13516; NM[6].B = -197.1; NM[6].C = 0.72;
+  NM[7].name = "MXCO"; NM[7].A = 13573; NM[7].B = -105.2; NM[7].C = 0.21;    
   double A;
   double B;
   double C;
     
-  for (int i =0; i<6; i++) {  // 6 numero di stazioni definite
+  for (int i =0; i<8; i++) {  // 8 numero di stazioni definite
     if (NM[i].name == stat) {
       A = NM[i].A;B = NM[i].B; C = NM[i].C;
       cout<<"A-> "<<A<<endl;

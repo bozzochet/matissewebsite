@@ -33,7 +33,7 @@ typedef struct NeutronMonitor {
 } NeutronMonitor;
 
 
-NeutronMonitor NM[6]; // global array 6 numero di stazioni definite
+NeutronMonitor NM[8]; // global array 6 numero di stazioni definite
 
 
 void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
@@ -55,18 +55,19 @@ void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
 void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rate)
 {
   //definisco i parametri
-  NM[0].name = "Oulu"; NM[0].A = 7609.0; NM[0].B = -110.5; NM[0].C = 0.41;
-  NM[1].name = "Newk"; NM[1].A = 6907.0; NM[1].B = -103.0; NM[1].C = 0.39;
-  NM[2].name = "Jung"; NM[2].A = 10668; NM[2].B = -112.7; NM[2].C = 0.31;
-  NM[3].name = "Kiel"; NM[3].A = 6580; NM[3].B = -54.5; NM[3].C = 0.11;
-  NM[4].name = "Mosc"; NM[4].A = 7979; NM[4].B = -53.9; NM[4].C = 0.09;
-  NM[5].name = "Apty"; NM[5].A = 6849; NM[5].B = -57.9; NM[5].C = 0.12;
-    
+  NM[0].name = "OULU"; NM[0].A = 7609.0; NM[0].B = -110.5; NM[0].C = 0.41;
+  NM[1].name = "NEWK"; NM[1].A = 6907.0; NM[1].B = -103.0; NM[1].C = 0.39;
+  NM[2].name = "JUNG"; NM[2].A = 10668; NM[2].B = -112.7; NM[2].C = 0.31;
+  NM[3].name = "KIEL"; NM[3].A = 6580; NM[3].B = -54.5; NM[3].C = 0.11;
+  NM[4].name = "MOSC"; NM[4].A = 7979; NM[4].B = -53.9; NM[4].C = 0.09;
+  NM[5].name = "APTY"; NM[5].A = 6849; NM[5].B = -57.9; NM[5].C = 0.12;
+  NM[6].name = "ROME"; NM[6].A = 13516; NM[6].B = -197.1; NM[6].C = 0.72;
+  NM[7].name = "MXCO"; NM[7].A = 13573; NM[7].B = -105.2; NM[7].C = 0.21;   
   double A;
   double B;
   double C;
     
-  for (int i =0; i<6; i++) {  // 6 numero di stazioni definite
+  for (int i =0; i<8; i++) {  // 8 numero di stazioni definite
     if (NM[i].name == stat) {
       A = NM[i].A;B = NM[i].B; C = NM[i].C;
       for (int i=0; i<rate.size(); i++) {
@@ -154,9 +155,7 @@ void GetProtonMODvsEkn(double Ekn /*[GeV/n]*/, vector<double> &phi, vector<doubl
 }
 
 int main()
-{
-
-    
+{ 
   double Ekn = 1.0; //1 GeV
   //PLOT
   int color[6] = {416,807,860,616,1,2};
@@ -166,16 +165,13 @@ int main()
   vector<double> JMOD;
   vector<double> JIS;
   vector<double> EIS;
-    
   //multiplot all phi from different station
   TFile ff("/var/www/html/FFModel/ForceFieldARRAY.root" , "recreate");
-  ff.cd();
-    
+  ff.cd();   
   // importare la lista dei NM
   for (int y = 1 ; y<3; y++) {
     vector<string> stats;
     vector<TString> stations;
-
     ifstream set;
     stringstream ss;
     ss<<y;
@@ -224,13 +220,13 @@ int main()
       //creazione grafici
       ofstream myfile,myfile2;
       myfile.open("/var/www/html/FFModel/PHI.txt");
-      for (int i=0; i<phi.size(); i++) {
-	myfile<<date[i]<<" "<<phi[i]<<endl;
+      for (int j=0; j<phi.size(); j++) {
+	myfile<<date[j]<<" "<<phi[j]<<endl;
       }
       myfile.close();
       myfile2.open ("/var/www/html/FFModel/JMOD.txt");
-      for (int i=0; i<phi.size(); i++) {
-	myfile2<<date[i]<<" "<<JMOD[i]<<endl;
+      for (int j=0; j<phi.size(); j++) {
+	myfile2<<date[j]<<" "<<JMOD[j]<<endl;
       }
       myfile2.close();
 
