@@ -28,35 +28,54 @@
 <script src="/jsroot/scripts/JSRootCore.js?2d&onload=createGUI"> type="text/javascript"></script>
 
 <script type='text/javascript'>
-var filename = "/FFModelDynamic/ForceFielGEV.root";
+var filename = "/FFModelDynamic/ForceFieldGEV.root";
    JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("OULU;1", function(obj) {
+file.ReadObject("J(t) Oulu;1", function(obj) {
        JSROOT.draw("drawing", obj);
      });
    });
 
-var filename = "/FFModelDynamic/ForceFielGEV.root";
+var filename = "/FFModelDynamic/ForceFieldGEV.root";
    JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("NEWK;1", function(obj) {
+file.ReadObject("J(t) Newk;1", function(obj) {
        JSROOT.draw("drawing2", obj);
      });
    });
 
 
-var filename = "/FFModelDynamic/ForceFielGEV.root";
+var filename = "/FFModelDynamic/ForceFieldGEV.root";
    JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("KIEL;1", function(obj) {
+file.ReadObject("J(t) Kiel;1", function(obj) {
        JSROOT.draw("drawing3", obj);
      });
    });
 
-var filename = "/FFModelDynamic/ForceFielGEV.root";
+var filename = "/FFModelDynamic/ForceFieldGEV.root";
    JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("JUNG;1", function(obj) {
+file.ReadObject("J(t) Jung;1", function(obj) {
        JSROOT.draw("drawing4", obj);
      });
    });
 
+var filename = "/FFModelDynamic/ForceFieldGEV.root";
+   JSROOT.OpenFile(filename, function(file) {
+file.ReadObject("J(t) Apty;1", function(obj) {
+       JSROOT.draw("drawing5", obj);
+     });
+   });
+var filename = "/FFModelDynamic/ForceFieldGEV.root";
+   JSROOT.OpenFile(filename, function(file) {
+file.ReadObject("J(t) MOSC;1", function(obj) {
+       JSROOT.draw("drawing6", obj);
+     });
+   });
+
+var filename = "/FFModelDynamic/ForceFieldGEV.root";
+   JSROOT.OpenFile(filename, function(file) {
+file.ReadObject("J(t) ROME;1", function(obj) {
+       JSROOT.draw("drawing4", obj);
+     });
+   });
 </script>
 
 
@@ -145,7 +164,7 @@ function RootFF(){
 <br><br>
 <div id="drawing4" style="width:650px; height:400px"></div>
 <br><br>
-<button><type="button"><a href="/FFModelDynamic/ForceFielGEV.root">ROOT File </a></button>
+<button><type="button"><a href="/FFModelDynamic/ForceFieldGEV.root">ROOT File </a></button>
 <br><br>
 
 <!-- TEST DYNAMIC BUTTON
