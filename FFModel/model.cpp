@@ -43,10 +43,11 @@ void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
   double dat, hz;
   while (!file.eof( )) {
     file >> dat >> hz;
-    rate.push_back(hz);
+    if(dat>1965.000) {
+     rate.push_back(hz);
     date.push_back(dat);
   }
-    
+  }
   file.close();
 }
 
@@ -55,14 +56,15 @@ void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
 void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rate)
 {
   //definisco i parametri
-  NM[0].name = "OULU"; NM[0].A = 7609.0; NM[0].B = -110.5; NM[0].C = 0.41;
-  NM[1].name = "NEWK"; NM[1].A = 6907.0; NM[1].B = -103.0; NM[1].C = 0.39;
-  NM[2].name = "JUNG"; NM[2].A = 10668; NM[2].B = -112.7; NM[2].C = 0.31;
-  NM[3].name = "KIEL"; NM[3].A = 6580; NM[3].B = -54.5; NM[3].C = 0.11;
+  NM[0].name = "OULU"; NM[0].A =7609.16; NM[0].B = -110.498; NM[0].C = 0.414333;
+  NM[1].name = "NEWK"; NM[1].A =6907.31; NM[1].B =  -102.973; NM[1].C =0.385457;
+  NM[2].name = "JUNG"; NM[2].A =10668.1; NM[2].B = -112.679; NM[2].C =0.309376;
+  NM[3].name = "KIEL"; NM[3].A =6579.55; NM[3].B = -54.5371; NM[3].C = 0.11357;
+
   NM[4].name = "MOSC"; NM[4].A = 7979; NM[4].B = -53.9; NM[4].C = 0.09;
-  NM[5].name = "APTY"; NM[5].A = 6849; NM[5].B = -57.9; NM[5].C = 0.12;
-  NM[6].name = "ROME"; NM[6].A = 13516; NM[6].B = -197.1; NM[6].C = 0.72;
-  NM[7].name = "MXCO"; NM[7].A = 13573; NM[7].B = -105.2; NM[7].C = 0.21;   
+  NM[5].name = "APTY"; NM[5].A =6848.52; NM[5].B = -57.9011; NM[5].C =0.124626;
+  NM[6].name = "ROME"; NM[6].A =13516.2; NM[6].B =  -197.111; NM[6].C =0.716388;
+  NM[7].name = "MXCO"; NM[7].A =13572.7; NM[7].B = -105.231; NM[7].C =0.209658;
   double A;
   double B;
   double C;
@@ -213,7 +215,7 @@ int main()
       string s = "/var/www/html/Neutron/" + stats[i]+".txt";
       cout<<s<<endl;
       SetDataNM(rate,date,s); // vector contiene tutti i rate
-      GetModulationPotential(stats[i],phi,rate); 
+      GetModulationPotential(stats[i],phi,rate);
       SetEIS(Ekn,EIS, phi );
       GetProtonLISvsEkn(JIS, EIS);
       GetProtonMODvsEkn( Ekn /*[GeV/n]*/, phi, EIS, JIS, JMOD);
@@ -223,9 +225,11 @@ int main()
       for (int j=0; j<phi.size(); j++) {
 	myfile<<date[j]<<" "<<phi[j]<<endl;
       }
+        
       myfile.close();
       myfile2.open ("/var/www/html/FFModel/JMOD.txt");
-      for (int j=0; j<phi.size(); j++) {
+    
+      for (int j=0; j<JMOD.size(); j++) {
 	myfile2<<date[j]<<" "<<JMOD[j]<<endl;
       }
       myfile2.close();
@@ -280,38 +284,39 @@ int main()
       EIS.clear();
     }        
           
-      c[0]->SetName("FF Model PHI Set");
-      c[0]->cd();
-      mg[0]->SetTitle("#phi Modulated potential");
-      mg[0]->Draw("apl");
-      mg[0]->GetXaxis()->CenterTitle();
-      mg[0]->GetYaxis()->CenterTitle();
-      mg[0]->GetXaxis()->SetTitle("year");
-      mg[0]->GetYaxis()->SetTitle("#phi [MV]");
-      mg[0]->SetName("phi TOTAL");
-      legend[0]->Draw();
-            
-      c[1]->SetName("FF Model J Set");
-      c[1]->cd();
-      mg[1]->SetTitle("J(E = 1 GeV) Modulated Flux");
-      mg[1]->Draw("apl");
-      mg[1]->GetXaxis()->CenterTitle();
-      mg[1]->GetYaxis()->CenterTitle();
-      mg[1]->GetXaxis()->SetTitle("year");
-      mg[1]->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
-      mg[1]->SetName("J TOTAL");
-      legend[1]->Draw();
+    c[0]->SetName("FF Model PHI Set");
+    c[0]->cd();
+    mg[0]->SetTitle("#phi Modulated potential");
+    mg[0]->Draw("apl");
+    mg[0]->GetXaxis()->CenterTitle();
+    mg[0]->GetYaxis()->CenterTitle();
+    mg[0]->GetXaxis()->SetTitle("year");
+    mg[0]->GetYaxis()->SetTitle("#phi [MV]");
+    mg[0]->SetName("phi TOTAL");
+    legend[0]->Draw();
+          
+      
+    c[1]->SetName("FF Model J Set");
+    c[1]->cd();
+    mg[1]->SetTitle("J(E = 1 GeV) Modulated Flux");
+    mg[1]->Draw("apl");
+    mg[1]->GetXaxis()->CenterTitle();
+    mg[1]->GetYaxis()->CenterTitle();
+    mg[1]->GetXaxis()->SetTitle("year");
+    mg[1]->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
+    mg[1]->SetName("J TOTAL");
+    legend[1]->Draw();
               
     
-           stats.clear(); //pronto per nuovo set
-           stations.clear(); //pronto per nuovo set
-           ff.cd();
-           for (int i=0; i<2; i++) {
-              c[i]->Write();
-           }    
+    stats.clear(); //pronto per nuovo set
+    stations.clear(); //pronto per nuovo set
+    ff.cd();
+    for (int i=0; i<2; i++) {
+      c[i]->Write();
+    }    
     
   }
 
-ff.Close();
+  ff.Close();
 
 }    //end program

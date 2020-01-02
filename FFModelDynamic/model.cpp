@@ -37,18 +37,18 @@ NeutronMonitor NM[8]; // global array
 
 
 
-void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
-{
+void SetDataNM(vector<double> &rate, vector<double> &date, string &s) {
     
   ifstream file;
   file.open(s);
   double dat, hz;
-  while (!file.eof( )) {
-    file >> dat >> hz;
+while (!file.eof( )) {
+  file >> dat >> hz;
+  if(dat > 1965.000) {
     rate.push_back(hz);
     date.push_back(dat);
   }
-    
+ }
   file.close();
  }
 
@@ -56,14 +56,15 @@ void SetDataNM(vector<double> &rate, vector<double> &date, string &s)
 
 void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rate)
 {
-  NM[0].name = "OULU"; NM[0].A = 7609.0; NM[0].B = -110.5; NM[0].C = 0.41;
-  NM[1].name = "NEWK"; NM[1].A = 6907.0; NM[1].B = -103.0; NM[1].C = 0.39;
-  NM[2].name = "JUNG"; NM[2].A = 10668; NM[2].B = -112.7; NM[2].C = 0.31;
-  NM[3].name = "KIEL"; NM[3].A = 6580; NM[3].B = -54.5; NM[3].C = 0.11;
+  NM[0].name = "OULU"; NM[0].A =7609.16; NM[0].B = -110.498; NM[0].C = 0.414333;
+  NM[1].name = "NEWK"; NM[1].A =6907.31; NM[1].B =  -102.973; NM[1].C =0.385457;
+  NM[2].name = "JUNG"; NM[2].A =10668.1; NM[2].B = -112.679; NM[2].C =0.309376;
+  NM[3].name = "KIEL"; NM[3].A =6579.55; NM[3].B = -54.5371; NM[3].C = 0.11357;
+
   NM[4].name = "MOSC"; NM[4].A = 7979; NM[4].B = -53.9; NM[4].C = 0.09;
-  NM[5].name = "APTY"; NM[5].A = 6849; NM[5].B = -57.9; NM[5].C = 0.12;
-  NM[6].name = "ROME"; NM[6].A = 13516; NM[6].B = -197.1; NM[6].C = 0.72;
-  NM[7].name = "MXCO"; NM[7].A = 13573; NM[7].B = -105.2; NM[7].C = 0.21;    
+  NM[5].name = "APTY"; NM[5].A =6848.52; NM[5].B = -57.9011; NM[5].C =0.124626;
+  NM[6].name = "ROME"; NM[6].A =13516.2; NM[6].B =  -197.111; NM[6].C =0.716388;
+  NM[7].name = "MXCO"; NM[7].A =13572.7; NM[7].B = -105.231; NM[7].C =0.209658;
   double A;
   double B;
   double C;
