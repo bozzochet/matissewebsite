@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>    
+</head>
+<body>
+<input type="button" id='script' name="scriptbutton" value=" WRITE" onclick="goPython()">
+<p id="demo"></p>
+ <script> 
+function goPython() {
+let data = "Learning how to write in a file."
+document.getElementById("demo").innerHTML = data;
+
+const fs = require('fs') 
+fs.writeFile('Output.txt', data, (err) => { 
+      
+    if (err) throw err; 
+}) 
+}
+</script>
+</body>
+</html>
