@@ -15,32 +15,28 @@
       
    <h4>  How to call PHP function 
        on the click of a Button ? 
-   </h4> 
-      
-    <?php
-        if(array_key_exists('button1', $_POST)) { 
-            button1(); 
-        } 
-        else if(array_key_exists('button2', $_POST)) { 
-            button2(); 
-        } 
-        function button1() { 
-            echo "This is Button1 that is selected"; 
-        } 
-
-        function button2() { 
-           $myfile = fopen("/SET/Output.txt", "w+") or die("Unable to open file!");
-$txt = "John Doe\n";
+   </h4>   
+     
+ <?php
+$myfile = fopen("./Output.txt", "w"); 
+$txt = "DAVID PELOSI\n";
 fwrite($myfile, $txt);
-$txt = "Jane Doe\n";
+$txt = "DAVID PELOSI\n";
 fwrite($myfile, $txt);
 fclose($myfile);
-echo "RUN      This is Button2 that is selected"; 
-  }
+echo "RUN This is Button2 that is selected";
+echo "\n"
+?>
 
+<!--
+  <script>
+      function funct() {
+          <?php writeToFile('Output.txt', 'hello'); ?>
+      }
+      window.onload = funct;
+  </script>        
+           
 
-echo '<a href="/SET/Output.txt">Check</a>'; 
-    ?> 
   
     <form method="post"> 
         <input type="submit" name="button1"
