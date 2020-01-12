@@ -2,7 +2,6 @@
 //  Created by David Pelosi on 02/10/18.
 #include <iostream>
 #include <iomanip>
-#include <stdlib.h>
 #include <TAxis.h>
 #include <TGraphErrors.h>
 #include <TGraph.h>
@@ -30,7 +29,7 @@ typedef struct NeutronMonitor {
   double A;
   double B;
   double C;
-
+    
 } NeutronMonitor;
 
 
@@ -39,7 +38,7 @@ NeutronMonitor NM[8]; // global array
 
 
 void SetDataNM(vector<double> &rate, vector<double> &date, string &s) {
-
+    
   ifstream file;
   file.open(s);
   double dat, hz;
@@ -68,7 +67,7 @@ void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rat
   double A;
   double B;
   double C;
-
+    
   for (int i =0; i<8; i++) {  // 8 numero di stazioni definite
     if (NM[i].name == stat) {
       A = NM[i].A;B = NM[i].B; C = NM[i].C;
@@ -86,7 +85,7 @@ void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rat
 void SetEIS(double Ekn, vector<double> &EIS, vector<double> &phi ){  // EIS(t) phi(t)
   double Z = 1.;
   double A= 1.;
-
+    
   for (int i=0; i<phi.size(); i++) {
     // PHI in GV [rigidity loss] prima era in MV (il graifico in MV)
     EIS.push_back(Ekn + (Z/A)*(phi[i]*1.e-3));
@@ -96,7 +95,7 @@ void SetEIS(double Ekn, vector<double> &EIS, vector<double> &phi ){  // EIS(t) p
 
 void GetProtonLISvsEkn(vector<double> &JIS, vector<double> &EIS)
 {
-
+    
   //per calcore JIS Vector svolgo il calcolo in E si aggiorna E = EIS[i]
   for (int i=0; i<EIS.size(); i++) {
     // --- kinematics ---
@@ -108,7 +107,7 @@ void GetProtonLISvsEkn(vector<double> &JIS, vector<double> &EIS)
     double pM=Mp*pA; // nucleus mass
     double R= (sqrt( (EIS[i]*pA+pM)*(EIS[i]*pA+pM)- (pM*pM)))/pZ; // rigidity R=p/Z
     double LnR= TMath::Log(R); // log-of-rigidity
-
+      
     // --- low-R parameterization ---
     double Norm= 11600;
     double mu= -0.559;
@@ -116,7 +115,7 @@ void GetProtonLISvsEkn(vector<double> &JIS, vector<double> &EIS)
     double G1 = -2.4482;
     double nu= 0.431;
     double LowR= (TMath::Power( 1.+ TMath::Exp(-(LnR-mu)/sigma), -1./nu ))*TMath::Power(R, G1);
-
+      
     // --- high-R parameterization ---
     double Rb1 = 6.2;
     double DG1 = -0.4227;
@@ -141,7 +140,7 @@ void GetProtonMODvsEkn(double Ekn /*[GeV/n]*/, vector<double> &phi, vector<doubl
   double Z=1;            // proton charge
   double A=1.;           // proton mass number
   double Mp=0.938;       // proton mass GeV
-
+  
   double E= Ekn;                // GeV/n [kinetic energy (per nucleon) HERE AT EARTH]
 
   for (int i=0; i<phi.size(); i++) {
@@ -150,14 +149,14 @@ void GetProtonMODvsEkn(double Ekn /*[GeV/n]*/, vector<double> &phi, vector<doubl
     double PIS2= (EIS[i]*A + Mp*A)*(EIS[i]*A + Mp*A) - (Mp*A)*(Mp*A); // MOM INTERSTELLAR
     double SP= P2/PIS2; // RATIO OF SQUARED MOMENTA = RATIO OF SQUARED RIGIDITIES
     //  double SP = ( (E + Mp)*(E + Mp) - (Mp*Mp) ) / ( (E + Mp + (Z/A)*PHI)*(E + Mp + (Z/A)*PHI) - (Mp*Mp) ); // EQUIVALENT TO ABOVE
-
+  
     // calc modulated flux at energy E
-
+      
     if (phi[i] <= 1.0 ) {
       JMOD.push_back(0);
     }
     else JMOD.push_back(SP * JIS[i]);
-
+      
   }
 
 }
@@ -165,7 +164,7 @@ void GetProtonMODvsEkn(double Ekn /*[GeV/n]*/, vector<double> &phi, vector<doubl
 
 int main()
 {
-  int color[7] = {kRed, kGreen+1, kBlue, kMagenta-6,kBlue-9,kOrange+7,kBlack};
+  int color[6] = {632,416,860,900,860,432};
   vector<double> date;
   vector<double> rate;
   vector<double> phi;
@@ -173,14 +172,9 @@ int main()
   vector<double> JIS;
   vector<double> EIS;
 
-
-//energies
-    vector<double> ENERGY;
-    vector<TString> strenergy;
-
   TFile ff("/var/www/html/FFModelDynamic/ForceFieldGEV.root" , "recreate");
   ff.cd();
-
+    
   // importare la lista dei NM
   for (int y = 1 ; y<2; y++) {
     vector<string> stats;
@@ -194,7 +188,7 @@ int main()
     ss>>s;
     string path ="/var/www/html/FFModelDynamic/NM_Set" + s + ".txt";
     cout<<path<<endl;
-
+     
     set.open(path);
     string sx;
     while (!set.eof()) {
@@ -202,24 +196,13 @@ int main()
       stats.push_back(sx);
       stations.push_back(sx);
     }
+    
+    
+    
+    double energy [3] = {1,10,0.1};
+    TString strenergy [3] = {"E = 1 [GeV]","E = 10 [GeV]","E = 0.1 [GeV]"};
 
-
-    ifstream en;
-    string path2 ="/var/www/html/FFModelDynamic/ENERGY.txt";
-     cout<<path2<<endl;
-en.open(path2);
-          string gev;
-cout<<"STEP"<<endl;
-          while (!en.eof()) {
-            en>>gev>>ws;
-            double lol = atof(gev.c_str());
-            ENERGY.push_back(lol);
-            strenergy.push_back("E = "+ gev);
-          }
-
-cout<<"STEP"<<endl;
-
-cout<<"STEP"<<endl;
+            
     for (int j=0; j<stats.size(); j++) {
       ff.cd();
  string s = "/var/www/html/Neutron/"+
@@ -233,11 +216,11 @@ cout<<"STEP"<<endl;
  legend->SetX1NDC(0.01);
  legend->SetX2NDC(0.9);
  TMultiGraph *mg = new TMultiGraph();
-cout<<"STEP"<<endl;
+    
  //for sulle energie
- for (int i=0; i<ENERGY.size(); i++) {
-
-   double Ekn = ENERGY[i]; //E GeV
+ for (int i=0; i<3; i++) {
+        
+   double Ekn = energy[i]; //E GeV
    SetEIS(Ekn,EIS, phi );
    GetProtonLISvsEkn(JIS, EIS);
    GetProtonMODvsEkn( Ekn /*[GeV/n]*/, phi, EIS, JIS, JMOD);
@@ -252,7 +235,7 @@ cout<<"STEP"<<endl;
      myfile2<<date[i]<<" "<<JMOD[i]<<endl;
    }
    myfile2.close();
-
+        
    TGraph *f = new TGraph("/var/www/html/FFModel/JMOD.txt");
    f->GetXaxis()->SetTitle("year");
    f->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
@@ -266,17 +249,15 @@ cout<<"STEP"<<endl;
    f->SetLineWidth(2);
    f->SetLineStyle(1);
    f->Write(); //salvo nel file root
-
+         
    mg->Add(f);
-   legend->AddEntry(f,strenergy[i]+" GeV","l");
-
+   legend->AddEntry(f,strenergy[i],"l");
+   
    JMOD.clear();
    JIS.clear();
    EIS.clear();
  }
-
-
-cout<<"STEP OUT"<<endl;
+        
  c->SetName("J(t) "+ stations[j] );
  c->SetTitle("J(t) "+ stations[j] );
  c->cd();
@@ -291,14 +272,14 @@ cout<<"STEP OUT"<<endl;
 
  ff.cd();
  c->Write();
-
+    
  date.clear();
  rate.clear();
  phi.clear();
 
     }
-
-
+    
+    
   }
   ff.Close();
   return 0;

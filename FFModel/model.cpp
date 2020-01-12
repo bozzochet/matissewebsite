@@ -61,7 +61,7 @@ void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rat
   NM[2].name = "JUNG"; NM[2].A =10668.1; NM[2].B = -112.679; NM[2].C =0.309376;
   NM[3].name = "KIEL"; NM[3].A =6579.55; NM[3].B = -54.5371; NM[3].C = 0.11357;
 
-  NM[4].name = "MOSC"; NM[4].A = 7979; NM[4].B = -53.9; NM[4].C = 0.09;
+  NM[4].name = "MOSC"; NM[4].A = 7978.88; NM[4].B = -53.9157; NM[4].C = 0.0936969;
   NM[5].name = "APTY"; NM[5].A =6848.52; NM[5].B = -57.9011; NM[5].C =0.124626;
   NM[6].name = "ROME"; NM[6].A =13516.2; NM[6].B =  -197.111; NM[6].C =0.716388;
   NM[7].name = "MXCO"; NM[7].A =13572.7; NM[7].B = -105.231; NM[7].C =0.209658;
@@ -158,7 +158,18 @@ void GetProtonMODvsEkn(double Ekn /*[GeV/n]*/, vector<double> &phi, vector<doubl
 
 int main()
 { 
-  double Ekn = 1.0; //1 GeV
+  double Ekn;
+  ifstream setE;
+  string pathE ="/var/www/html/SET/E.txt";
+  setE.open(pathE);
+ string  sxE;
+  while (!setE.eof()) {
+    setE>>sxE>>ws;
+    double lol = atof(sxE.c_str());
+  Ekn = lol;
+}
+
+  
   //PLOT
   int color[6] = {416,807,860,616,1,2};
   vector<double> date;
@@ -171,7 +182,7 @@ int main()
   TFile ff("/var/www/html/FFModel/ForceFieldARRAY.root" , "recreate");
   ff.cd();   
   // importare la lista dei NM
-  for (int y = 1 ; y<3; y++) {
+  for (int y = 1 ; y<2; y++) {
     vector<string> stats;
     vector<TString> stations;
     ifstream set;
@@ -179,7 +190,7 @@ int main()
     ss<<y;
     string s;
     ss>>s;
-    string path ="/var/www/html/FFModel/NM_Set" + s + ".txt";
+    string path ="/var/www/html/SET/NM_Set" + s + ".txt";
     cout<<path<<endl;
  
     set.open(path);
@@ -239,7 +250,10 @@ int main()
       TGraph *f = new TGraph("/var/www/html/FFModel/JMOD.txt");
       f->GetXaxis()->SetTitle("year");
       f->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
-      TString p = "Modulated Flux J(E = 1 GeV) from " + stations[i]+" Data";
+
+
+
+      TString p = "Modulated Flux J(E = "+ sxE+" GeV) from " + stations[i]+" Data";
       f->SetTitle(p);
       f->GetXaxis()->CenterTitle();
       f->GetYaxis()->CenterTitle();
@@ -296,9 +310,10 @@ int main()
     legend[0]->Draw();
           
       
+    TString eTitle = sxE;
     c[1]->SetName("FF Model J Set");
     c[1]->cd();
-    mg[1]->SetTitle("J(E = 1 GeV) Modulated Flux");
+    mg[1]->SetTitle("J(E =" + eTitle  +"GeV) Modulated Flux");
     mg[1]->Draw("apl");
     mg[1]->GetXaxis()->CenterTitle();
     mg[1]->GetYaxis()->CenterTitle();
