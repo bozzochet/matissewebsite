@@ -70,9 +70,19 @@
 
 <h4>NM Stations Selected:</h4> <br>
 <?php
+$myfile2 = fopen("SET/E.txt", "w") or die("Unable to open file!");    
+$line2 = $_POST["energy"];
+echo "Energy:";
+echo $line2;
+echo "GeV\n\n\n";
+fwrite($myfile2, $line2);
+
+
 $line = $_POST["name"];
+echo "NM Stations: ";
 echo $line;
 $stations = explode(" ", $line);                                               
+
 
 $result = sizeof($stations);                                                   
 
@@ -86,7 +96,7 @@ $myfile = fopen("SET/NM_Set1.txt", "w") or die("Unable to open file!");
  fwrite($myfile, "\n");                                                        
 }
 exec("sh run.sh");
-exec("sh run2.sh");
+//exec("sh run2.sh");
 //echo $message;
 //echo "\n OPERATION COMPLETED";
 ?>

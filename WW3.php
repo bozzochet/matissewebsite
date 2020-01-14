@@ -1,7 +1,6 @@
 <html>
 <head>
-<style>
-</style>
+
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <title>Solar Data Web Tool</title>
@@ -17,12 +16,6 @@
     <link rel="stylesheet" href="/thickbox.css">
     <link rel="stylesheet" href="/projects.css">
     <link rel="stylesheet" type="text/css" href="/main2.css">
-<!--
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
- <title>Solar Data Web Tool</title>
-
-
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <!-- syntax highlighting CSS -->
@@ -37,15 +30,7 @@
     <link rel="stylesheet" href="/static/css/projects.css">
     <link rel="stylesheet" href="/static/css/main.css">
 
-
-
-
-
-
 <!-- -->
-
-
-
 </head>
 
 
@@ -77,29 +62,41 @@
     <div class="col-sm-8 col-offset-1 main-layout">
 
 <!-- INSERIRE QUI IL CODICE-->
-<br><br>
-<h4>The available Neutron Monitor stations are:</h4>
-<li>JUNG (Switzerland)</li>
-<li>APTY (Russia)</li>
-<li> KIEL (Germany)</li>
-  <li>OULU (Finland)</li>
-<li> NEWK (USA)</li>
-<li> MOSC (Moscow)</li>
-<li> ROME</li>
-<li> MXCO (Mexico City) </li>
-<br>
-<form action="WW2.php" method="post">
-Write Stations to plot: <input type="text" name="name"><br>
-<br>Execution time <span>&#126;</span> 120 sec.<br>
-<br><br>
-<form action="WW2.php" method="post">
-Set Energy [GeV]: <input type="text" name="energy"><br>
-<input type="submit">
-</form>
-<!--
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<center><h3 style="color:rgb(60, 128, 214);"><b>Resources</b></h3></center>
 
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<center><h3 style="color:rgb(60, 128, 214);"><b>NM Station Set</b></h3></center>
+
+
+<h4>Energies Selected:</h4> <br>
+<?php
+$line = $_POST["name"];
+echo $line;
+$stations = explode(" ", $line);                                               
+
+$result = sizeof($stations);                                                   
+
+$myfile = fopen("FFModelDynamic/ENERGY.txt", "w") or die("Unable to open file!");            
+ for ($i = 0; $i < $result; $i++) {                                            
+
+ $txt = $stations[$i];                                                         
+
+ fwrite($myfile, $txt);                                                        
+
+fwrite($myfile, "\n");                                                        
+
+}
+
+echo " [GeV]";
+//exec("sh run.sh");
+exec("sh run3.sh");
+//echo $message;
+//echo "\n OPERATION COMPLETED";
+?>
+<h4>Operation completed</h4>
+<button><type="button"><a  href="/NeutronDynamic.html">See Result</a></button>
+
+<!--
 <a class="about" href="/SSN.html">Solar Spot Number</a> (<b>SSN</b>) Data (monthly and daily) are taken from <a href="http://sidc.oma.be/silso/ ">SILSO</a>: World Data Center for the production, preservation and dissemination of the international sunspot number.<br>
 <b>SSN(t)</b> descibes the mean number of SSN (averaged over a month or day) as a function of time.
 <br><br>
