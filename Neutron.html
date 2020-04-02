@@ -1,9 +1,10 @@
+
 <html>
 <head>
 
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <title>Solar Data Web Tool</title>
+ <title>NEUTRON MONITOR </title>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <!-- syntax highlighting CSS -->
     <link rel="stylesheet" href="syntax.css">
@@ -75,18 +76,19 @@
         <div class="col-sm-3">
           <div class="fixed-condition text-center">
             <a href="/"><img class="profile-avatar" src="/static/img/me.png" height="75px" width="75px" /></a>
-            <h4 class="author-name" style="color:rgb(60, 128, 214);"><b>Solar Data Tool</b></h4>
+            <h5 class="author-name" style="color:rgb(60, 128, 214);"><b>HELIOSPHERIC VIRTUAL OBSERVATORY</b></h5>
 
             <hr />
             <ul class="sidebar-nav text-left">
               <strong>Menu</strong>
-              <li><a href="/index.html">Home</a></li>
-              <li><a class="about" href="/SSN.html">Solar Spot Number</a></li>
-              <li><a class="about" href="/SFS.html">Solar Field Strenght</a></li>
-              <li><a class="about" href="/Tilt.html">Tilt Angle</a></li>
-              <li><a class="about" href="/SolarSmoothed.html">SSN Smoothed & Monthly</a></li>
-            <li><a class="about" href="/Resources.html">Resources</a></li>
-             <li><a class="about" href="/Neutron.html">Neutron Monitor</a></li>
+              <li><a href="/index.html"><b>HOME</b></a></li>
+              <li><a class="about" href="/SSN.html"><b>SUNSPOT NUMBER</b></a></li>
+              <li><a class="about" href="/SFS.html"><b>SOLAR FIELD STRENGHT</b></a></li>
+              <li><a class="about" href="/Tilt.html"><B>TILT ANGLE</b></a></li>
+              <li><a class="about" href="/Resources.html"><b>RESOURCES</b></a></li>
+              <li><a class="about" href="/Neutron.html"><b>NEUTRON MONITOR</b></a></li>
+
+
             </ul>
           </div>
         </div>
@@ -96,9 +98,22 @@
 
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <center><h3 style="color:rgb(60, 128, 214);"><b>Neutron Monitor Data</b></h3></center>
+    <center><h3 style="color:rgb(60, 128, 214);"><b>NEUTRON MONITOR</b></h3></center>
     Last updated date: <p id="date"></p> <br>
-    <center><button><type="button"><a href="http://10.2.201.68/Intro2.html"> Change NM Stations Set </a></button> </center>
+ 
+This section is dedicated to Neutron Monitor data. <br>
+Monthly updated data are taken from  <a href="http://www01.nmdb.eu">NMDB Neutron Monitor DataBase</a>. <br>
+<br>
+To select NM stations to plot, press the button <b>Select Stations</b>.<br>
+Here we have also implemented a method to calculate proton flux at the top of the atmosphere from neutron monitor count rate. See <a class="about" href="/Details.html"><b>here</b></a> for further information.<br> 
+<i class="fa fa-camera" aria-hidden="true"></i> to take a screenshot press the button on the lower left side of the canvas.<br>
+To select NM stations to plot, and calculate the proton flux for a given energy, press thebutton <b>Select Stations</b>.<br> 
+To download the code used press the button <b>Code</b>.
+<br>
+<br>
+
+
+    <center><button><type="button"><a href="http://10.2.201.68/Intro32.html"> Select Stations</a></button> </center>
     <script>
     n =  new Date();
     y = n.getFullYear();
@@ -136,8 +151,8 @@
         window.location.href="/FFModel/Download/"+path;
     }
     </script>
-Rate, Modulated Potential and Flux Plot from selected Neutron Monitors stations.<br>Default NM Set:<b> OULU JUNG APTY NEWK</b><br>
-To modify the default NM Set press the button above.<br>
+
+<br>
     <div id="drawing" style="width:650px; height:400px"></div>
     <button><type="button"><a onclick="Root();">Plots</a></button>
     <br><br>
@@ -145,17 +160,25 @@ To modify the default NM Set press the button above.<br>
     Descrizione da completare...Force Field Model Plots: PHI Potential
     <br><br>
     <div id="drawing3" style="width:650px; height:400px"></div>
-    <button><type="button"><a href="/FFModel/model.cpp">FF Model Code</a></button>
+    <button><type="button"><a href="/FFModel/model.cpp">Code</a></button>
     <button><type="button"><a onclick="RootFF();">FF Model Plots</a></button>
     <br><br>
     Descrizione da completare Force Field Model PlotS: J(E = 1 GeV)
     <br><br>
     <div id="drawing4" style="width:650px; height:400px"></div>
-    <button><type="button"><a href="/FFModel/model.cpp">FF Model Code </a></button>
+    <button><type="button"><a href="/FFModel/model.cpp">Code </a></button>
     <button><type="button"><a onclick="RootFF();">FF Model Plots</a></button>
 
     <br>
-   <button><type="button"><a href="/NeutronDynamic.html">More Plots different  Energies[GeV] </a></button>
+
+<br>
+
+</center>
+
+<b>Proton Flux Model applied to every NM station for a set of energies.</b> <br>
+To see the results press the button below. <br><br>
+<center>
+   <button><type="button"><a href="/NeutronDynamic.html"> Plots </a></button>
    <!-- 
     </script>Neutron Monitors Set 2: <b>APTY</b>, <b>MOSC</b>
     <div id="drawing2" style="width:650px; height:400px"></div>

@@ -1,40 +1,46 @@
-<!DOCTYPE html> <html>
- <head>
- <meta charset="UTF-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <title>Solar Data Web Tool</title>
+<html>
+<head>
 
+<meta charset="UTF-8">
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="styleshee\
+tq" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">\
+</script>
+<script src="date.format.js"></script>
+<script src="jquery-dropdate.js"></script>
+<script>
+$(document).ready(function(){
+    $('.dropdate').dropdate({
+        dateFormat:'mm/dd/yyyy'
+    });
+});
+</script>
 
-
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <title>TILT ANGLE</title>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <!-- syntax highlighting CSS -->
-    <link rel="stylesheet" href="/static/css/syntax.css">
+    <link rel="stylesheet" href="syntax.css">
     <!-- Bootstrap core CSS -->
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap.min.css" rel="stylesheet">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/css/super-search.css">
-    <link rel="stylesheet" href="/static/css/thickbox.css">
-    <link rel="stylesheet" href="/static/css/projects.css">
-    <link rel="stylesheet" href="/static/css/main.css">
-
-
-
-
-
-
+    <link rel="stylesheet" href="/super-search.css">
+    <link rel="stylesheet" href="/thickbox.css">
+    <link rel="stylesheet" href="/projects.css">
+    <link rel="stylesheet" type="text/css" href="/main2.css">
 <!-- -->
 <script src="/jsroot/scripts/JSRootCore.js?2d&onload=createGUI"> type="text/javascript"></script>
 
 <script type='text/javascript'>
-var filename = "/Tilt/Tilt.root";
+var filename = "/Tilt/ROOT/TILT.root";
    JSROOT.OpenFile(filename, function(file) {
 file.ReadObject("TOTAL Graph;1", function(obj) {
        JSROOT.draw("drawing", obj);
      });
    });
-
 </script>
 
 
@@ -53,17 +59,17 @@ file.ReadObject("TOTAL Graph;1", function(obj) {
     <div class="col-sm-3">
       <div class="fixed-condition text-center">
         <a href="/"><img class="profile-avatar" src="/static/img/me.png" height="75px" width="75px" /></a>
-        <h4 class="author-name" style="color:rgb(60, 128, 214);"><b>Solar Data Tool</b></h4>
+        <h5 class="author-name" style="color:rgb(60, 128, 214);"><b>HELIOSPHERIC VIRTUAL OBSERVATORY</b></h5>
 
         <hr />
         <ul class="sidebar-nav text-left">
           <strong>Menu</strong>
-          <li><a href="/index.html">Home</a></li>
-          <li><a class="about" href="/SSN.html">Solar Spot Number</a></li>
-          <li><a class="about" href="/SFS.html">Solar Field Strenght</a></li>
-          <li><a class="about" href="/Tilt.html">Tilt Angle</a></li>
-          <li><a class="about" href="/SolarSmoothed.html">SSN Smoothed & Monthly</a></li>
-          <li><a class="about" href="/Neutron.html">Neutron Monitor</a></li>
+                        <li><a href="/index.html"><b>HOME</b></a></li>
+              <li><a class="about" href="/SSN.html"><b>SUNSPOT NUMBER</b></a></li>
+              <li><a class="about" href="/SFS.html"><b>SOLAR FIELD STRENGHT</b></a></li>
+              <li><a class="about" href="/Tilt.html"><B>TILT ANGLE</b></a></li>
+<li><a class="about" href="/Resources.html"><b>RESOURCES</b></a></li>
+              <li><a class="about" href="/Neutron.html"><b>NEUTRON MONITOR</b></a></li>
         </ul>
       </div>
     </div>
@@ -73,17 +79,58 @@ file.ReadObject("TOTAL Graph;1", function(obj) {
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<center><h3 style="color:rgb(60, 128, 214);"><b>Tilt Angle Data</b></h3></center>
-Tilt Angle data from ....
+<center><h3 style="color:rgb(60, 128, 214);"><b>TILT ANGLE</b></h3></center>
+Last updated date: <p id="date"></p> <br>
 
+<div class="jquery-script-clear"></div>
+
+This section is dedicated to Tilt angle of the Heliospheric Current Sheet.<br>
+Data are taken from <a href="http://wso.stanford.edu/Tilts.html">The Wilcox Solar Observatory</a>. 
+<br>
+Data is updated about every month.<br>
+<i class="fa fa-camera" aria-hidden="true"></i> to take a screenshot press the button on the lower left side of the canvas.<br>
+You can select data range manually from dropdown menu or directly from the dinamic plot.<br>
+To download updated data and plot (in <b>.root</b> format) press the button ROOT File.
+<br><br>
+<!--  <div class="col-sm-8 col-offset-1 main-layout"> -->
+<h5>Select date range manually</h5>
+<form method="get" action="Tilt.php">
+Start Date  <input type="text" name="birthday" value="" class="dropdate"><br><br>
+End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><br>
+ <input type="submit">
+</form>
+
+
+
+
+<script>
+n =  new Date();
+y = n.getFullYear();
+m = n.getMonth() + 1;
+d = n.getDate();
+document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
+</script>
 
 
 <br><br>
 <center>
 <div id="drawing" style="width:650px; height:400px"></div>
-<button><type="button"> <a href="/Tilt/Tilt.root"> ROOT File</button>
-<button><type="button"> <a href="/TREE/TiltTree.root"> ROOT Tree</button>
+<script>
+function Tree(){
+    var now = new Date();
+    var month = parseInt(now.getMonth())+1;
+    var path = "TiltTree_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
+    window.location.href="/TREE/Download/"+path;
+}
+function Root(){
+    var now = new Date();
+    var month = parseInt(now.getMonth())+1;
+    var path = "Tilt_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
+    window.location.href="/Tilt/Download/"+path;
+}
+</script>
 
+<button><type="button"><a onclick="Root();">ROOT File</a></button>
 </center>
 
 
@@ -96,7 +143,7 @@ Tilt Angle data from ....
       </footer>
     </div>
   </div>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-
+<!--  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+-->
 </body>
 </html>
